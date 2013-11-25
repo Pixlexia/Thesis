@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends StateBasedGame{
 
 	public static int GWIDTH = 1000, GHEIGHT = 600;
-	public static int PWIDTH = 700;
+	public static int PWIDTH = 700; // width of game screen, width of sidebar is GWIDTH - PWIDTH
 	public static int TS = 20;
 	
 	/*

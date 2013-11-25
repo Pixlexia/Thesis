@@ -1,13 +1,22 @@
-package platformer;
+package entities;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
 
+import platformer.RAction;
+import platformer.Sidebar;
+import platformer.Sprites;
+
+/*
+ * Program buttons (bottom of Command buttons)
+ * The command buttons to be executed
+ */
+
 public class PButton extends Button{
 	
 	int index;
-	Command type;
+	RAction type;
 
 	public PButton(int i, float w, float h, float x, float y) {
 		super(w, h);
@@ -36,22 +45,22 @@ public class PButton extends Button{
 		}
 	}
 	
-	public void click(){
+	public void onClick(){
 		System.out.println("delete " + index);
 		Sidebar.commands[index] = null;
-		Sidebar.pButtons[index].type = null;
+		Sidebar.programSlots[index].type = null;
 	}
 	
-	public void setType(Command c){
+	public void setType(RAction c){
 		type = c;
 		
 		switch(type){
-		case mLeft:
+		case moveLeft:
 			image = Sprites.left;
 			hoverImage = Sprites.leftHover;
 			break;
 			
-		case mRight:
+		case moveRight:
 			image = Sprites.right;
 			hoverImage = Sprites.rightHover;
 			break;

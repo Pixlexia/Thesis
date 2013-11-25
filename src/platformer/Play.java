@@ -8,11 +8,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Play extends BasicGameState {
+import entities.Player;
+import entities.Robot;
 
+public class Play extends BasicGameState {
+	
+	Player player;
+	Robot robot;
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		new Character(0, 0);
+
+		robot = new Robot(10, 0);
+		player = new Player(0, 0);
 		new Level();
 		new Sidebar();
 	}
@@ -20,16 +28,24 @@ public class Play extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setBackground(Color.white);
-		Character.render(g);
-		g.translate(Character.offsetX, 0);
+		
+		player.render(g);
+		
+		g.translate(Player.offsetX, 0);
+
+		robot.render(g);
+		
 		Level.map.render(0, 0);
 		Sidebar.render(g);
+
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
-		Character.update(input, delta);
+		player.update(input, delta);
+		robot.update(delta);
+		
 		Sidebar.update(delta, input);
 		
 		if(input.isKeyPressed(Input.KEY_F5)){

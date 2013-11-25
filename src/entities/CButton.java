@@ -1,20 +1,28 @@
-package platformer;
+package entities;
 
 import org.newdawn.slick.Graphics;
 
-public class CButton extends Button{
-	Command type;
+import platformer.RAction;
+import platformer.Sidebar;
+import platformer.Sprites;
 
-	public CButton(Command t, float w, float h) {
+/*
+ *  Command buttons (top of sidebar commands panel)
+ */
+
+public class CButton extends Button{
+	RAction type;
+
+	public CButton(RAction t, float w, float h) {
 		super(w, h);
 		type = t;
 		switch(type){
-		case mLeft:
+		case moveLeft:
 			image = Sprites.left;
 			hoverImage = Sprites.leftHover;
 			break;
 			
-		case mRight:
+		case moveRight:
 			image = Sprites.right;
 			hoverImage = Sprites.rightHover;
 			break;
@@ -35,7 +43,7 @@ public class CButton extends Button{
 		}
 	}
 	
-	public void click(){
+	public void onClick(){
 		Sidebar.addCommand(type);
 	}
 

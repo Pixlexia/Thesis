@@ -7,15 +7,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import platformer.Button.Command;
+import entities.Button;
+import entities.CButton;
+import entities.PButton;
+import entities.Player;
+import entities.Robot;
 
 public class Sidebar {
-	static ArrayList<CButton> cButtons;
-	static PButton[] pButtons;
-	static Command[] commands;
-	static Button runProgram;
-	static int padding = 10;
-	static float bSize;
+	public static ArrayList<CButton> cButtons;
+	public static PButton[] programSlots; // empty slots
+	public static RAction[] commands; // actual command list for Robot
+	public static Button runProgram;
+	public static int padding = 10;
+	public static float bSize;
 	
 	static float translateValue;
 
@@ -24,19 +28,19 @@ public class Sidebar {
 	
 	public Sidebar() throws SlickException{
 		new Sprites();
-		translateValue = Game.PWIDTH - Character.offsetX;
+		translateValue = Game.PWIDTH - Player.offsetX;
 		
 		cButtons = new ArrayList<CButton>();
 		
-		pButtons = new PButton[maxCommands];
-		commands = new Command[maxCommands];
+		programSlots = new PButton[maxCommands];
+		commands = new RAction[maxCommands];
 
 		bSize = (Game.GWIDTH - Game.PWIDTH - padding * 2 - (6-1)*padding)/6;
 		
 		// init command buttons
-		cButtons.add(new CButton(Command.mLeft, bSize, bSize));
-		cButtons.add(new CButton(Command.mRight, bSize, bSize));
-		cButtons.add(new CButton(Command.interact, bSize, bSize));
+		cButtons.add(new CButton(RAction.moveLeft, bSize, bSize));
+		cButtons.add(new CButton(RAction.moveRight, bSize, bSize));
+		cButtons.add(new CButton(RAction.interact, bSize, bSize));
 		
 		for(int i = 0 ; i < cButtons.size(); i++){
 			float x = padding*(i+1) + bSize * i;
@@ -50,15 +54,19 @@ public class Sidebar {
 		for(int i = 0; i < commands.length/maxCommandsPerRow; i++){
 			for(int j = 0 ; j < commands.length / (commands.length/maxCommandsPerRow); j++){
 				int index = j + (i*maxCommandsPerRow);
-				pButtons[index] = new PButton(index, bSize, bSize, padding*(j+1) + bSize*j, padding*(i+1) + bSize*i + 200);
+				programSlots[index] = new PButton(index, bSize, bSize, padding*(j+1) + bSize*j, padding*(i+1) + bSize*i + 200);
 			}
 		}
 		
-		runProgram = new Button(padding, pButtons[pButtons.length-1].pos.getY() + 100, 200, 50); 
+		runProgram = new Button(padding, programSlots[programSlots.length-1].pos.getY() + 100, 200, 50){
+			public void onClick(){
+				Robot.executeCommands();
+			}
+		};
 	}
 	
 	public static void render(Graphics g){
-		g.translate(translateValue - Character.offsetX, 0);
+		g.translate(translateValue - Player.offsetX, 0);
 		
 		// commands panel
 		g.setColor(new Color(65, 173, 232));
@@ -71,8 +79,8 @@ public class Sidebar {
 		}
 		
 		// program panel
-		for(int i = 0 ; i < pButtons.length; i++){
-			pButtons[i].render(g);
+		for(int i = 0 ; i < programSlots.length; i++){
+			programSlots[i].render(g);
 		}
 		
 		runProgram.render(g);
@@ -85,19 +93,19 @@ public class Sidebar {
 			cButtons.get(i).update(mouseX, input.getMouseY(), input);
 		}
 		
-		for(int i = 0 ; i < pButtons.length; i++){
-			if(pButtons[i] != null)
-				pButtons[i].update(mouseX, input.getMouseY(), input);
+		for(int i = 0 ; i < programSlots.length; i++){
+			if(programSlots[i] != null)
+				programSlots[i].update(mouseX, input.getMouseY(), input);
 		}
 		
 		runProgram.update(mouseX, input.getMouseY(), input);
 	}
 	
-	public static int addCommand(Command c){
+	public static int addCommand(RAction r){
 		for(int i = 0 ; i < commands.length; i++){
 			if(commands[i] == null){
-				commands[i] = c;
-				pButtons[i].setType(c);
+				commands[i] = r;
+				programSlots[i].setType(r);
 				return 0;
 			}
 		}

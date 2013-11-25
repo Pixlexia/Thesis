@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="30" tilewidth="20" tileheight="20">
  <tileset firstgid="1" name="tile s" tilewidth="20" tileheight="20">
-  <image source="tile s.png" width="100" height="100"/>
+  <image source="tiles.png" width="100" height="100"/>
  </tileset>
- <tileset firstgid="26" name="tile s" tilewidth="20" tileheight="20">
-  <image source="../../Platformer/res/tile s.png" width="100" height="100"/>
+ <tileset firstgid="26" name="tiles" tilewidth="20" tileheight="20">
+  <image source="tiles.png" width="100" height="100"/>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="30">
   <data encoding="base64" compression="gzip">

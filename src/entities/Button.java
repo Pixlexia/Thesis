@@ -1,4 +1,4 @@
-package platformer;
+package entities;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -10,11 +10,9 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Button {
 	
-	public enum Command { mLeft, mRight, interact };
-	
-	Image image, hoverImage;
-	Point pos = new Point(0, 0);
-	Rectangle collisionBox;
+	public Image image, hoverImage;
+	public Point pos = new Point(0, 0);
+	public Rectangle collisionBox;
 	
 	boolean isHovered;
 	
@@ -48,11 +46,11 @@ public class Button {
 			isHovered = false;
 		
 		if(isHovered && input.isMousePressed(0)){
-			click();
+			onClick();
 		}
 	}
 	
-	public void click(){
+	public void onClick(){
 		System.out.println("Clickity click");
 	}
 	

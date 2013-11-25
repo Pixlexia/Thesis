@@ -4,11 +4,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Level {
-	static TiledMap map;
-	static boolean[][] solid;
+	public static TiledMap map;
+	public static boolean[][] solid;
 	
 	public Level() throws SlickException{
-		map = new TiledMap("res/1.tmx");
+		map = new TiledMap("res/2.tmx");
 		solid = new boolean[map.getWidth()][map.getHeight()];
 		
 		for(int y = 0 ; y < map.getHeight(); y++ ){

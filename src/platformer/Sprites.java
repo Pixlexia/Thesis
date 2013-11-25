@@ -4,7 +4,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Sprites {
-	static Image left, leftHover, right, rightHover, interact, interactHover;
+	public static Image left;
+	public static Image leftHover;
+	public static Image right;
+	public static Image rightHover;
+	public static Image interact;
+	public static Image interactHover;
+	
 	public Sprites() throws SlickException{
 		left = new Image("res/left.png").getSubImage(0, 0, 38, 38);
 		leftHover = new Image("res/left.png").getSubImage(38, 0, 38, 38);
