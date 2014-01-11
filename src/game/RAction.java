@@ -1,4 +1,4 @@
-package platformer;
+package game;
 
 /*
  *  Robot actions

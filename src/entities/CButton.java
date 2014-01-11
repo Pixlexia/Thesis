@@ -1,10 +1,11 @@
 package entities;
 
+import game.RAction;
+import game.Sidebar;
+import game.Sprites;
+
 import org.newdawn.slick.Graphics;
 
-import platformer.RAction;
-import platformer.Sidebar;
-import platformer.Sprites;
 
 /*
  *  Command buttons (top of sidebar commands panel)

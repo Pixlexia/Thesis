@@ -1,4 +1,4 @@
-package platformer;
+package game;
 
 import java.util.ArrayList;
 

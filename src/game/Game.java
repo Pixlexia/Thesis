@@ -1,4 +1,4 @@
-package platformer;
+package game;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;

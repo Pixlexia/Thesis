@@ -1,12 +1,13 @@
 package entities;
 
+import game.RAction;
+import game.Sidebar;
+import game.Sprites;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
 
-import platformer.RAction;
-import platformer.Sidebar;
-import platformer.Sprites;
 
 /*
  * Program buttons (bottom of Command buttons)
