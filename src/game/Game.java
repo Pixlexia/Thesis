@@ -17,13 +17,15 @@ public class Game extends StateBasedGame{
 	 */
 	
 	public Game() {
-		super("Platformer Game");
+		super("Thesis Game Thing");
 	}
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		this.addState(new MainMenu());
+		this.addState(new WorldMenu());
 		this.addState(new Play());
-		this.enterState(0);
+		this.enterState(2);
 	}
 	
 	public static void main(String args[]) throws SlickException{
