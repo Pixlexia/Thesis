@@ -136,8 +136,8 @@ if(openIf){
 }
 
 if(closeIf){
-	if(inIfBody)
-		inIf
+	if(!inIfBody)
+		ERROR "You need to be in an if body!"
 }
 
 evaluateBooleanExpression(){
@@ -148,6 +148,7 @@ evaluateBooleanExpression(){
 
 	boolOpResult = result from switch case
 
+	inIfBody = true
 	resetBooleanExpression()
 }
 

@@ -1,17 +1,16 @@
 TODO
 
 Coding
-- exit
 - bigass command list
-- inventory
-	- interact command
-	- store computer value to inventory
-- operators
-- if else commands
-- loop commands
+- reset the counter for inner loops after first iteration of parent/outer loop
 - function commands   
-- boundary collision
 - "victory" screen after level complete
+- pause menu
+- more levels
+
+Bugs:
+- minor bug: when if-condition is false, error commands inside the if body are also skipped
+- fix gametext when getting computer data
 
 Art
 - all sprites
@@ -22,15 +21,29 @@ Polishing
 - world menu
 
 Done:
+- exit
+- inventory
+	- interact command
+	- store computer value to inventory
+- operators
+- if else commands
+- loop commands
 - climb <-- not very elegant, fix/tweak?
 - implement level system
-
-Bugs:
-- minor bug: when if-condition is false, error commands inside the if body are also skipped
+- boundary collision
 
 Ideas:
 - "Unlockables:" on level 1-5, can use red slot only, but on lv 5, before finishing level, unlock the blue slot
 - can set speed of commandDelays. can be used in determining DDA? (higher delay means player is dumber)
+
+possible DDA factors:
+- time
+- number of moves
+- number of retries
+- number of errors
+- commanddelay?
+- number of instruction reread
+- number of variables used
 
 ==================
 

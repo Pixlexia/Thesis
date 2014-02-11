@@ -10,24 +10,24 @@ public class RActionList {
 			RAction.redSlot,
 			RAction.yellowSlot,
 			RAction.blueSlot,
+			RAction.equals,
+			RAction.number,
 			RAction.add,
 			RAction.subtract,
 			RAction.multiply,
 			RAction.divide,
-			RAction.equals,
-			RAction.modulo,
 			RAction.startIf,
 			RAction.startElse,
 			RAction.isEqual,
 			RAction.isNotEqual,
 			RAction.isGreaterThan,
 			RAction.isLessThan,
-			RAction.startLoop,
-			RAction.func1,
-			RAction.func2,
 			RAction.endIf,
 			RAction.endElse,
-			RAction.endLoop
+			RAction.startLoop,
+			RAction.endLoop,
+			RAction.func1,
+			RAction.func2
 	};
 	
 	// Keyword types
@@ -43,13 +43,12 @@ public class RActionList {
 		identifiers.add(RAction.redSlot);
 		identifiers.add(RAction.yellowSlot);
 		identifiers.add(RAction.interact);
-		identifiers.add(RAction.integer);
+		identifiers.add(RAction.number);
 				
 		arithmeticOperators.add(RAction.add);
 		arithmeticOperators.add(RAction.subtract);
 		arithmeticOperators.add(RAction.multiply);
 		arithmeticOperators.add(RAction.divide);
-		arithmeticOperators.add(RAction.modulo);
 		
 		slot.add(RAction.blueSlot);
 		slot.add(RAction.redSlot);

@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends StateBasedGame{
 
 	public static int GWIDTH = 1000, GHEIGHT = 600;
-	public static int PWIDTH = 700; // width of game screen, width of sidebar is GWIDTH - PWIDTH
+	public static int PWIDTH = 680, PHEIGHT = GHEIGHT; // width/height of game screen, width of sidebar is GWIDTH - PWIDTH
 	public static int TS = 20;
 	
 	/*
@@ -21,11 +21,11 @@ public class Game extends StateBasedGame{
 	}
 
 	@Override
-	public void initStatesList(GameContainer arg0) throws SlickException {
+	public void initStatesList(GameContainer gc) throws SlickException {
 		this.addState(new MainMenu());
 		this.addState(new WorldMenu());
 		this.addState(new Play());
-		this.enterState(2);
+		this.enterState(0);
 	}
 	
 	public static void main(String args[]) throws SlickException{

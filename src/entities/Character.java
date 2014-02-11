@@ -6,6 +6,7 @@ import net.phys2d.math.Vector2f;
 import net.phys2d.raw.Body;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Character {
@@ -38,5 +39,17 @@ public class Character {
 		}
 
 		return -1;
+	}
+	
+	public Point getPos(){
+		return new Point(body.getPosition().getX(), body.getPosition().getY());
+	}
+	
+	public float getX(){
+		return body.getPosition().getX();
+	}
+	
+	public float getY(){
+		return body.getPosition().getY();
 	}
 }

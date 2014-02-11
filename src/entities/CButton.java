@@ -1,15 +1,16 @@
 package entities;
 
-import java.util.ArrayList;
-
 import game.RAction;
-import game.RActionList;
+import game.Res;
 import game.Sidebar;
-import game.Sprites;
+
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /*
  *  Command buttons (top of sidebar commands panel)
@@ -17,164 +18,102 @@ import org.newdawn.slick.Graphics;
 
 public class CButton extends Button{
 	RAction type;
-	boolean enabled;
+	public int timeBeforeInflate;
+	public boolean renderNow;
 	
-	public static boolean inIfCond, inIfBlock;
-
-	public CButton(RAction t, float w, float h) {
-		super(w, h);
+	Point imagePos;
+	
+	public CButton(RAction t, float x, float y, float w, float h) throws SlickException {
+		super(x, y, w, h);
 		type = t;
-		
-		enabled = true;
-		
-		image = Sprites.rActionSprites.get(t).copy();
+		image = Res.rActionSprites.get(t).copy();
 		image.setAlpha(0.6f);
+		imagePos = new Point(x + w/2 - image.getWidth()/2, y + h/2 - image.getHeight()/2);
 		
-		hoverImage = Sprites.rActionSprites.get(t).copy();
-		
-		inIfCond = false;
-		inIfBlock = false;
+		hoverImage = Res.rActionSprites.get(t).copy();
+		renderNow = false;
+		Random r = new Random();
+
+		enlargeSize = 7f;
+		inflateRate = 3f;
+		timeBeforeInflate = r.nextInt(10*Sidebar.maxRactions);
 	}
 	
 	public void render(Graphics g){
-		g.setColor(Color.white);
-		g.fill(getBounds());
-		if(isHovered && enabled){
-			g.drawImage(hoverImage, pos.getX(), pos.getY());
+		if(isHovered){
+			g.setColor(new Color(255, 255, 255, 255));
 		}
 		else{
-			g.drawImage(image, pos.getX(), pos.getY());
+			g.setColor(new Color(255, 255, 255, 200));
 		}
-		if(!enabled){
-			g.setColor(new Color(0, 0, 0, 0.5f));
+		
+		if(renderNow){
 			g.fill(getBounds());
+			g.drawImage(hoverImage, (int) imagePos.getX(), (int) imagePos.getY());			
+		}
+		
+//		if(!HelpText.isAlive)
+	}
+	
+	@Override
+	public void update(int delta, float x, float y, Input input){
+		super.update(delta, x, y, input);
+		
+		if(timeBeforeInflate > 0){
+			timeBeforeInflate -= delta;
+		}
+		else if(!renderNow){
+			inflateFromZero();
+			renderNow = true;
 		}
 	}
 	
-	public void onClick(){
-		if(enabled)
-			Sidebar.addCommand(type);
-		
-		buildProgram();
+	@Override
+	public void isHovered(){
+		super.isHovered();
+		enlargeSize = 2;
+		inflate();
 	}
 	
-	public static void buildProgram(){
-//		ArrayList<PButton> pb = Sidebar.programButtons;
-//		boolean identifier = false, operator = false, slot = false, equal = false;
-//		boolean isOpenCond = false, isCloseCond = false, booleanOperator = false;
-//
-//		int n = 0;
-//		RAction last = null;
-//		// last index
-//		if(!pb.isEmpty()){
-//			n = pb.size() - 1;
-//			last = pb.get(n).type;			
-//		}
-//		
-//		// check for last program command
-//		
-//		// Identifier
-//		if(RActionList.isIdentifier(last)){
-//			if(inIfCond){ // if [ident]
-//				if(!RActionList.isBooleanOperator(pb.get(n-1).type))
-//					booleanOperator = true;
-//				else{ // if ident boolop [ident]
-//					inIfCond = false;
-//
-//					// if body starts here
-//					inIfBlock = true;
-//					identifier = true;
-//					slot = true;
-//				}
-//			}
-//			else if(!inIfCond && RActionList.isSlot(last) && (n == 0 || pb.get(n-1).type != RAction.equals && !RActionList.isArithmeticOperator(pb.get(n-1).type))){
-//				// Left Value (Slot), enable equals only
-//				equal = true;
-//			}
-//			else{
-//				isOpenCond = true;
-//				if(n > 0 && pb.get(n-1).type == RAction.equals){ // first operand
-//					// first operand, or 1 value only
-//					System.out.println("3");
-//					operator = true;
-//					identifier = true;
-//					slot = true;
-//				}
-//				else if(n > 0 && RActionList.isArithmeticOperator(pb.get(n-1).type)){
-//					// 2nd operand
-//					
-//					// default
-//					identifier = true;
-//					slot = true;
-//				}				
-//			}
-//		}
-//		// Equals
-//		else if(last == RAction.equals){
-//			// enable identifiers only
-//			identifier = true;
-//		}
-//		// Operator
-//		else if(RActionList.isArithmeticOperator(last)){
-//			identifier = true;
-//		}
-//		// If/Else Open Condition
-//		else if(RActionList.isStartCond(last)){
-//			identifier = true;
-//			inIfCond = true;
-//		}
-//		else if(RActionList.isEndCond(last)){
-//			inIfCond = false;
-//			inIfBlock = false;
-//			
-//			//default
-//			identifier = true;
-//			slot = true;
-//			isOpenCond = true;
-//		}
-//		// Boolean operator
-//		else if(RActionList.isBooleanOperator(last)){
-//			identifier = true;
-//		}
-//		else{
-//			// default
-//			identifier = true;
-//			slot = true;
-//			isOpenCond = true;
-//		}
-//		
-//		if(inIfBlock){
-//			isCloseCond = true;
-//		}
-//		
-//		for(int i = 0 ; i < Sidebar.cButtons.size(); i++){
-//			RAction ra = Sidebar.cButtons.get(i).type;
-//			if(ra == RAction.equals)
-//				Sidebar.cButtons.get(i).enabled = equal;
-//			else if(RActionList.isArithmeticOperator(ra))
-//				Sidebar.cButtons.get(i).enabled = operator;
-//			else if(RActionList.isIdentifier(ra))
-//				Sidebar.cButtons.get(i).enabled = identifier;
-//			else if(RActionList.isSlot(ra))
-//				Sidebar.cButtons.get(i).enabled = slot;
-//			else if(RActionList.isBooleanOperator(ra))
-//				Sidebar.cButtons.get(i).enabled = booleanOperator;
-//			else if(RActionList.isStartCond(ra))
-//				Sidebar.cButtons.get(i).enabled = isOpenCond;
-//			else if(RActionList.isEndCond(ra))
-//				Sidebar.cButtons.get(i).enabled = isCloseCond;
-//			else
-//				Sidebar.cButtons.get(i).enabled = true;
-//		}
-		
-		
-//		if(!pb.isEmpty() && RActionList.isSlot(pb.get(pb.size()-1).type)){
-//		}
-//		
-//		for(int i = 0 ; i < Sidebar.cButtons.size(); i++){
-//			if(Sidebar.cButtons.get(i).type != RAction.equals)
-//				Sidebar.cButtons.get(i).enabled = b;
-//		}
+	@Override
+	public void onClick(){
+		if(!Sidebar.showCalculator){
+			super.onClick();
+			enlargeSize = 7;
+			inflate();
+			
+			int size = 0, max = 0;
+			
+			switch(Sidebar.activeFunction){
+			case 0:
+				size = Sidebar.programButtons.size();
+				max = Sidebar.maxCommands;
+				break;
+				
+			case 1:
+				size = Sidebar.fui1.programButtons.size();
+				max = Sidebar.fui1.maxCommands;
+				break;
+				
+			case 2:
+				size = Sidebar.fui2.programButtons.size();
+				max = Sidebar.fui2.maxCommands;
+				break;
+			}
+			
+			if(size < max){
+				if(type == RAction.number){
+					Sidebar.showCalculator = true;
+					Calculator.wherePutNum = "number";
+				}
+				else if(type == RAction.startLoop){
+					Sidebar.showCalculator = true;
+					Calculator.wherePutNum = "loop";
+				}
+				Sidebar.addCommand(type);
+				inflate();
+			}			
+		}
 	}
 
 }

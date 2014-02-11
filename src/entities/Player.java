@@ -29,6 +29,11 @@ public class Player extends Character{
 	// PHYS2D
 	//=============
 	
+	// camera
+	public static float camX, camY;
+	Vector2f camMove;
+	float camAcc, camSpeed, camMaxSpeed;
+	
 	// jump
 	boolean canJump;
 	int jumpFrames;
@@ -37,7 +42,7 @@ public class Player extends Character{
 	float jumpSpeed = -28000; // velocity applied on jump
 	int jumpMaxFrames = 50; // max frames while holding spacebar
 	
-	public static float offsetX;
+	public static float offsetX, offsetY;
 	public static float renderX, renderY;
 	
 	public Player(float x, float y){
@@ -51,6 +56,13 @@ public class Player extends Character{
 		body.setMaxVelocity(maxSpeed.x, maxSpeed.y);
 		body.setCanRest(true);
 		body.setRestitution(10);
+		
+		camX = offsetX;
+		camY = 0;
+		camMaxSpeed = 3;
+		camSpeed = 0;
+		camMove = new Vector2f(0,0);
+		camAcc = 0.2f;
 	}
 	
 	public void update(Input input, int delta){
@@ -93,13 +105,11 @@ public class Player extends Character{
 		}
 		
 		// check if exit
-		if(isInExit()){
-			System.out.println("exit");
-			try {
-				Play.initLevel(++Play.level);
-			} catch (Exception e) {
-				e.printStackTrace();
+		if(isInExit() && !Level.exitLocked && !Play.levelWin){
+			if(Level.lastLevel){
+				Play.nextWorld();
 			}
+				Play.levelWin = true;
 		}
 		
 		super.update(delta);
@@ -142,21 +152,19 @@ public class Player extends Character{
 		Vector2f v1 = pts[0];
 		Vector2f v2 = pts[1];
 		Vector2f v3 = pts[2];
-		
-//
-		renderX = Game.PWIDTH/2;
-		renderY = body.getPosition().getY();
 				
 		g.setColor(Color.black);
 		Rectangle r = new Rectangle(renderX, renderY, v2.getX() - v1.getX(), v3.getY() - v1.getY());
-
+		
+		// adjust offsetX
 		if(body.getPosition().getX() - Game.PWIDTH/2 <= 0){
 			// manual left side
 			offsetX = 0;
 			renderX = body.getPosition().getX();
 		}
-		else if(body.getPosition().getX() + Game.PWIDTH/2 > Level.map.getWidth() * Game.TS){
+		else if(body.getPosition().getX() + Game.PWIDTH/2 > Level.map.getWidth() * Level.map.getTileWidth()){
 			// manual right side
+			offsetX = Game.PWIDTH/2 - (Level.map.getWidth() * Level.map.getTileWidth() - Game.PWIDTH/2);
 			renderX = offsetX + body.getPosition().getX();
 		}
 		else{
@@ -165,17 +173,28 @@ public class Player extends Character{
 			renderX = Game.PWIDTH/2;
 		}
 		
+		// adjust offsetY
+		if(body.getPosition().getY() - Game.PHEIGHT/2 <= 0){
+			// manual upper
+			offsetY = 0;
+			renderY = body.getPosition().getY();
+		}
+		else if(body.getPosition().getY() + Game.PHEIGHT/2 > Level.map.getHeight() * Level.map.getTileWidth()){
+			// manual down side
+			renderY = offsetY + body.getPosition().getY();
+		}
+		else{
+			//center
+			offsetY = Game.PHEIGHT/2 - body.getPosition().getY();
+			renderY = Game.PHEIGHT/2;
+		}
+		
 		renderX -= r.getWidth()/2;
 		renderY -= r.getHeight()/2;
-		
+
 		r.setX(renderX);
 		r.setY(renderY);
 		
-		g.fill(r);
-		
-//		if(isInComputer()){
-//			g.drawString("ppp", renderX - 10, renderY - 10);
-//		}
-		
+		g.fill(r);		
 	}
 }
