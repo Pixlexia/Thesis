@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="22" height="14" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="tileset" tilewidth="40" tileheight="40">
+  <image source="../tileset.png" width="200" height="200"/>
+ </tileset>
+ <layer name="art" width="22" height="14" opacity="0.9">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJqAkUoYm7nUcNtAmEtNP5PqB2rZxUyBuehytAoHUgG55rKSaS4t8sVQAQABfBQd0AQAAA==
+  </data>
+ </layer>
+ <layer name="data" width="22" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWDHUgOtAPwAImBdsAoGAVIAAAyhZ1I0AQAAA==
+  </data>
+ </layer>
+</map>

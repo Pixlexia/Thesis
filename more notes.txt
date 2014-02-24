@@ -1,0 +1,48 @@
+problems:
+- interest level?
+// - series of questions every world
+// - written exam?
+
+===
+
+INTEREST LEVEL
+- some factors from DDA (time spent, how many levels finished)
+- in-game questions
+- did you enjoy the game
+- are you willing to spend more time playing the game?
+- 
+
+
+===
+
+SERIES OF QUESTIONS
+- 7 levels tutorial (finishes a certain topic in the game)
+- actual levels (series of questions)
+
+topics:
+- variables and operators
+- conditional branching
+- loops
+- functions
+
+===
+WRITTEN EXAM-ish
+
+(interest questionnaire + measure knowledge)
+
+1) before playing the game, were you interested in taking up a programming-related course in college?
+
+2) after playing the game, are you interested in taking up a programming-related course in college?
+
+(game screenshot)
+
+3) based on the figure above: right right if(computer==5) blue = computer else blue = 10
+
+a) 5
+b) 10
+c) nothing
+d) 0
+
+4) 
+
+5) 

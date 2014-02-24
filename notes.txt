@@ -1,0 +1,145 @@
+===
+PROPOSE NEW OBJECTIVE?
+compare adaptive game to non-adaptive game, see which is more enjoyable/better
+
+embed "questionaire" in game: rate game 1 (easy) to 5 (hard)
+
+result:
+adaptive: many game was fun. better written exam scores?
+non-adaptive: many game was too hard/easy, few game fun. bad written exams scores?
+===
+
+DOCU
+
+CHAPTER 3
+3.1 add school name
+3.3 change series of questions to series of programming problems (more levels after tutorial levels)
+
+CHAPTER 4
+1. Determine basic programming concepts to teach:
+- variables and operators
+- conditional branching
+- loops
+- functions
+
+2. Determine game components:
+- platforming game (physics engine)
+- programming game (compiler)
+- level design (how the levels work: first tutorials, then actual levels)
+- adaptive component (record player performance)
+- user accounts
+
+3. Design and develop the game modules
+- scrum model
+- screenshots of output game?
+
+4. design database
+- binary file
+	User
+	- username
+	
+
+5. test and evaluate through game scores and written exam:
+- actual testing
+- graphs and shit
+
+CHAPTER 5
+
+
+===
+
+Why game/e-learning?
+- more fun
+- learners become more interested
+- high level of interactivity in games can be used for dynamic difficulty adjustment which books/etc dont have
+- more effective than face-to-face instruction (show chart from [3])
+- 2.1 e-learning 2.0 from [1]
+- learner-centered approach
+
+Why adaptive?
+- more challenging for skilled learners, easier for slow learners
+- improved efficiency, effectiveness, more enjoyment of the learning experience [2] conclusio
+- Chen et al. (Chen & Duh, 2008) states that the difficulty level of the recommended content is highly relevant to learners’ abilities. Furthermore, an appropriate content can result in learner’s cognitive overhead and disorientation during a learning process
+- screenshot in "Flow" section http://cs.northwestern.edu/~hunicke/pubs/Hamlet.pdf
+
+===
+DDA
+
+# Player ability can be measured by any number of parameters (DDA factors in todo.d). This calculation is a heuristic function called the "challenge function." This function maps a given game state into a value that specifies how easy or difficult the game feels to the user at a specific moment.
+
+# Model assumes linear relation between a problem solving ability and a logarithm of time to solve a problem. Why logarithm instead of untrasformed time:
+	- problem solving times have a natural "multiplicative" not additive nature. e.g. if A is better problem solver than B, A can solve 0.8 times as fast as B, not 20 seconds faster than B
+	- previous research on response times in item response theory successfully used this assumption [5][6][7]
+
+Ability can be measured by the time to achieve the goal, the number of lives lost during the level (number of retries), or the number of points scored. [8]
+
+===
+
+
+# getting to know the student in a virtual learning setting is also a significant challenge (Ahmad, 2004)
+
+# The fine-grained interactivity provided by games can produce more detailed information about the interaction of the students that any other kind of non-interactive content. Gathering and processing this information can open up new opportunities in terms of automatic assessment and student profiling
+
+# [4]
+Besides, there is an emergent trend in Technology-Enhanced Learning advocating
+for the use of educational video games and game-like simulations (Tang, 2007;
+Torrente, Lavín-Mera, Moreno-Ger, & Fernández-Manjón, 2008). Educational video
+games present advantages such as their suitability to convey concepts (Hamid,
+2001) or to increase students’ motivation (J. P. Gee, 2003). Games also provide
+short feedback cycles that foster constructivist learning approaches in which students
+implicitly formulate and test hypothesis, receiving immediate feedback from the
+system (Pivec & Dziabenko, 2004).
+
+===
+objective
+- controlled experiment? group a - dynamic, group b - linear. then see which is more effective/satisfying etc
+
+===
+Assessing the leaner steps: [2]
+a valid instructional system design sequence:
+a) present some introductory material
+b) follow with the presentation of a rule or concept
+c) provide a range of illustrative examples
+d) give liberal practice opportunities
+e) summarize and call for reflection
+
+
+# EVENTS OF INSTRUCTION according to Kruse, 2000,
+necessary conditions for learning, basis for designing instruction
+1. Gain the learner’s attention (reception).
+2. Inform the learner of the objectives (expectancy).
+3. Stimulate recall of prior learning (retrieval).
+4. Present the learning stimulus (selective perception).
+5. Provide learning guidance (semantic encoding).
+6. Elicit appropriate performance (responding).
+7. Provide feedback (reinforcement).
+8. Assess the learner’s performance (retrieval).
+9. Enhance retention and transfer (generalization).
+
+# WHAT TO LOOK FOR IN E-LEARNING GAMES [3] p 397
+goals activities consequences are aligned to desired learning outcomes
+guidance is included to help learners reach instructional goals
+explanations are incorporated between play rounds
+self-explanation questions
+visual support
+unguided exploration is avoided
+game goal complexity adapt to learnergx
+game is easy to use via simple GUI design and pretraining (tutorials)
+
+# EVIDENCE BASED PRACTICE [3] p 50
+when designing a course, base decisions on sources including:
+- fads (what is commonly done)
+- opinions (what experts advise)
+- politics (what the subject-matter experts or legal dept advises)
+- ideology (what seems consistent with a particular approach to instruction)
+
+
+============
+[1] http://www.wseas.us/e-library/conferences/2009/prague/ICAI/ICAI36.pdf
+[2] shute_towle.pdf
+[3] e-learning and the science of instruction
+[4] Integrating Adaptive Games in Student Centered Virtual Learning Environments
+[5] Van der Linden, W. A lognormal model for response times on test items. Journal of Educational and Behavioral Statistics 31(2), 181 (2006)
+[6] Van der Linden, W. Conceptual issues in response-item modeling. Journal of Educational Measurement. (2009) (as shown in http://www.fi.muni.cz/~xpelanek/publications/its12.pdf)
+[7] Analysis of a Simple Model of Problem Solving Times (http://www.fi.muni.cz/~xpelanek/publications/its12.pdf)
+[8] http://www-kd.iai.uni-bonn.de/icml2010mlg/papers/GoetschalckxEtAl.pdf
