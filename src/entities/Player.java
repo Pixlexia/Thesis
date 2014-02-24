@@ -106,8 +106,8 @@ public class Player extends Character{
 		
 		// check if exit
 		if(isInExit() && !Level.exitLocked && !Play.levelWin){
-			if(Level.lastLevel){
-				Play.nextWorld();
+			if(Play.tutorialDone){
+//				Play.nextWorld();
 			}
 				Play.levelWin = true;
 		}

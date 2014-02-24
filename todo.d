@@ -1,12 +1,17 @@
 TODO
 
 Coding
-- bigass command list
+- make the levels
+- user login
+- user load data
+- user save data
+- record user data (if tutorials finished)
+- adaptive algorithm
+- what happens if finish tutorial/some levels then go to world again?
+- interest level?
+
 - reset the counter for inner loops after first iteration of parent/outer loop
-- function commands   
-- "victory" screen after level complete
-- pause menu
-- more levels
+- function tutorials
 
 Bugs:
 - minor bug: when if-condition is false, error commands inside the if body are also skipped
@@ -16,11 +21,11 @@ Art
 - all sprites
 
 Polishing
-- movement of variables and values when assigning and arithmetic operations
-- main menu
-- world menu
+- "victory" screen after level complete?
+- state transitions
 
 Done:
+- recrod performance (see DDA factors)
 - exit
 - inventory
 	- interact command
@@ -33,11 +38,10 @@ Done:
 - boundary collision
 
 Ideas:
-- "Unlockables:" on level 1-5, can use red slot only, but on lv 5, before finishing level, unlock the blue slot
 - can set speed of commandDelays. can be used in determining DDA? (higher delay means player is dumber)
 
 possible DDA factors:
-- time
+- time (solving only, not including running program + platformer game?)
 - number of moves
 - number of retries
 - number of errors
@@ -76,8 +80,3 @@ right
 climb up
 climb down
 interact
-
-Inventory:
-Slot 1 -
-Slot 2 -
-Slot 3 -

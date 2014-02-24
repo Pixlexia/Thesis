@@ -22,6 +22,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import worldlevels.World1;
 import entities.Button;
 import entities.Function;
 import entities.GameText;
@@ -47,6 +48,7 @@ public class Play extends BasicGameState implements CollisionListener{
 	public static ArrayList<GameText> gTexts;
 	
 	public static boolean worldWin;
+	public static boolean tutorialDone;
 	public static boolean levelWin;
 	public static boolean gamePaused;
 	
@@ -56,9 +58,15 @@ public class Play extends BasicGameState implements CollisionListener{
 	public static Rectangle pauseSelectRect;
 	public static Button resume, gotoworldselect, quitgame;
 	
+	// DDA factors
+	public static int ddaTime, ddaCommands, ddaRetries, ddaErrors, ddaReread;
+	public static int timer; // not actual dda, just timer
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		new Res();
+		new User();
+		new World1();
 		
 		level = 1;
 		world = 0;
@@ -192,6 +200,8 @@ public class Play extends BasicGameState implements CollisionListener{
 	}
 	
 	public static void restartLevel() throws SlickException{
+		ddaRetries++;
+		
 		Robot.doneRun = false;
 		Robot.isRunning = false;
 		
@@ -232,6 +242,14 @@ public class Play extends BasicGameState implements CollisionListener{
 		gTexts = new ArrayList<GameText>();
 		
 		new Sidebar();
+		
+		// reset DDAs
+		ddaCommands = 0;
+		ddaErrors = 0;
+		ddaReread = 0;
+		ddaRetries = 0;
+		ddaTime = 0;
+		timer = 0;
 	}
 	
 	public static void initWorld(){
@@ -239,6 +257,10 @@ public class Play extends BasicGameState implements CollisionListener{
 		gotoworld = false;
 		
 		level = 1;
+		
+		if(world == 0){
+			User.doneTutorial[world] = false;
+		}
 		
 		try {
 			initLevel();
@@ -330,11 +352,20 @@ public class Play extends BasicGameState implements CollisionListener{
 			Res.futura24.drawString(Game.GWIDTH/2 - Res.futura24.getWidth("GO TO WORLD SELECT")/2, gotoworldselect.pos.getY() + 5, "GO TO WORLD SELECT", text);
 			Res.futura24.drawString(Game.GWIDTH/2 - Res.futura24.getWidth("QUIT GAME")/2, quitgame.pos.getY() + 5, "QUIT GAME", text);
 		}
+		
+		g.drawString("TIMER: " + timer/1000, 10, 50);
+		g.drawString("COMMANDS: " + ddaCommands, 10, 70);
+		g.drawString("RETRIES: " + ddaRetries, 10, 90);
+		g.drawString("ERRORS: " + ddaErrors, 10, 110);
+		g.drawString("REREAD: " + ddaReread, 10, 130);
+		g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
+		
+		ddaCommands = Sidebar.programButtons.size();
 		
 		// restart level
 		if(input.isKeyPressed(Input.KEY_F5)){
@@ -375,12 +406,17 @@ public class Play extends BasicGameState implements CollisionListener{
 		
 		// skip level+1
 		if(input.isKeyPressed(Input.KEY_ENTER)){
-			if(!Level.lastLevel){
-				Play.level++;
-				initLevel();			
+			// inside if(!helptext) from gotoNextLevel()
+			if(tutorialDone){
+				User.doneTutorial[world] = true;
+				if(world == 0){
+					worldWin = true;
+				}				
 			}
-			else{
-				Play.nextWorld();
+			
+			if(!worldWin){
+				level++;
+				initLevel();
 			}
 		}
 		
@@ -401,6 +437,7 @@ public class Play extends BasicGameState implements CollisionListener{
 			}
 			// actual game logic
 			else{
+				timer += delta;
 				player.update(input, delta);
 				robot.update(input, delta);
 				
@@ -434,10 +471,7 @@ public class Play extends BasicGameState implements CollisionListener{
 				sbg.enterState(1);
 			}
 			else if(levelWin){
-				if(!HelpText.isAlive){
-					level++;
-					initLevel();
-				}
+				gotoNextLevel();
 			}
 			// GAME LOOP END
 		}
@@ -451,6 +485,27 @@ public class Play extends BasicGameState implements CollisionListener{
 		
 	}
 
+	public static void nextWorld(){
+		worldWin = true;
+		tutorialDone = false;
+	}
+	
+	public static void gotoNextLevel() throws SlickException{
+		if(!HelpText.isAlive){
+			if(tutorialDone){
+				User.doneTutorial[world] = true;
+				if(world == 0){
+					worldWin = true;
+				}				
+			}
+			
+			if(!worldWin){
+				level++;
+				initLevel();
+			}
+		}
+	}
+	
 	@Override
 	public int getID() {
 		return 2;
@@ -474,9 +529,6 @@ public class Play extends BasicGameState implements CollisionListener{
 		g.drawLine(v4.x, v4.y, v1.x, v1.y);
 	}
 	
-	public static void nextWorld(){
-		worldWin = true;
-	}
 	
 
 }

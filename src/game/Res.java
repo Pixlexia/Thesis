@@ -14,6 +14,7 @@ import org.newdawn.slick.Sound;
 public class Res {
 	public static Map<RAction, Image> rActionSprites;
 	public static Map<String, Image> worldImages;
+	public static Map<Operator, String> operators;
 	public static Sound hover, click;
 	public static Image handImage;
 	public static AngelCodeFont futura24, futura36, futura16, futura60, futura72, futura10;
@@ -77,6 +78,13 @@ public class Res {
 		worldImages.put("conditions", new Image("res/greenguybig.png"));
 		worldImages.put("loops", new Image("res/redguybig.png"));
 		worldImages.put("functions", new Image("res/greenguybig.png"));
+		
+		// arithmetic operators
+		operators = new HashMap<Operator, String>();
+		operators.put(Operator.ADD, "SUM");
+		operators.put(Operator.SUB, "DIFFERENCE");
+		operators.put(Operator.MUL, "PRODUCT");
+		operators.put(Operator.DIV, "QUOTIENT");
 	}
 	
 	// x = center X

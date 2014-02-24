@@ -1,11 +1,13 @@
 package entities;
 
 import game.Level;
+import game.LevelData;
 import game.Play;
 import game.RAction;
 import game.RActionList;
 import game.Res;
 import game.Sidebar;
+import game.User;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -160,10 +162,20 @@ public class Robot extends Character{
 		if(!Sidebar.showCalculator && getBounds().contains(input.getMouseX() - Player.offsetX + getBounds().getWidth()/2, input.getMouseY() + getBounds().getHeight()/2)){
 			hovered = true;
 			if(input.isMousePressed(0)){
+				Play.ddaReread++;
 				// repeat instructions
 				new HelpText();
+				
+				if(!User.doneTutorial[Play.world]){
+					Level.initLevelData();
+				}
+				else{
+					LevelData levelData = Level.levelData;
+					for(String s : levelData.t){
+						Level.addHelp(s);
+					}
+				}
 				HelpText.counter = 0;
-				Level.initComputerValues();
 			}
 		}
 		else{
@@ -174,7 +186,7 @@ public class Robot extends Character{
 		if(commandCount >= Sidebar.programButtons.size()){
 			if(isRunning){		
 				isRunning = false;
-				System.out.println("check win condition");
+				System.out.println("Checking if answer is correct...");
 			}
 		}
 		else if(isRunning){			
@@ -734,6 +746,7 @@ public class Robot extends Character{
 	}
 	
 	public void programError(String s){
+		Play.ddaErrors++;
 		System.out.println(s);
 		Play.gTexts.add(new GameText(s, new Point(Play.robot.getX(), Play.robot.getY())));
 		isRunning = false;
