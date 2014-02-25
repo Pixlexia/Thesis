@@ -141,8 +141,6 @@ public class World1 extends WorldLevel{
 		}
 		ld.t.add(s);
 		medium.add(ld);
-		
-		
 	}
 	
 	// HARD
@@ -160,6 +158,10 @@ public class World1 extends WorldLevel{
 		x = r.nextInt(99);
 		y = r.nextInt(99);
 		z = r.nextInt(99);
+		
+		ld.compValues.add(x);
+		ld.compValues.add(y);
+		ld.compValues.add(z);
 		
 		ld.slotAns.put(slot, x+y+z);
 		ld.t.add("FOR THIS LEVEL, GET THE SUM OF ALL THE COMPUTERS AND STORE IT TO SLOT " + slot);
