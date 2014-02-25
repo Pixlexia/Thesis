@@ -25,6 +25,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 
 public class Player extends Character{
@@ -49,7 +50,7 @@ public class Player extends Character{
 	public static float renderX, renderY;
 	
 	// animations
-	Animation animation, walkRight, walkLeft, idleRight, idleLeft;
+	public static Animation animation, walkRight, walkLeft, idleRight, idleLeft;
 	Animation jumpRight, fallRight, jumpLeft, fallLeft;
 	
 	public Player(float x, float y) throws SlickException{
@@ -114,7 +115,7 @@ public class Player extends Character{
 		animation = idleRight;
 	}
 	
-	public void update(Input input, int delta){
+	public void update(Input input, int delta, StateBasedGame sbg){
 		
 		// controls move right
 		if(input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)){
@@ -156,7 +157,11 @@ public class Player extends Character{
 		// check if exit
 		if(isInExit() && !Level.exitLocked && !Play.levelWin){
 			if(Play.tutorialDone){
-//				Play.nextWorld();
+				if(Play.world != 4)
+					Play.nextWorld();
+				else{
+					sbg.enterState(4);
+				}
 			}
 				Play.levelWin = true;
 		}
@@ -276,8 +281,6 @@ public class Player extends Character{
 		
 		animation.draw(r.getX() + r.getWidth()/2 - animation.getCurrentFrame().getWidth()/2, r.getY() - 8);
 //		g.drawAnimation(animation, 0, 0);
-		
-		System.out.println(body.getVelocity().getX());
 		
 //		g.fill(r);		
 	}

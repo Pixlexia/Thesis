@@ -145,6 +145,11 @@ public class HelpText {
 						texts.set(index, texts.get(index).substring(0, cutIndex));
 						tutorialImage = "funcmoveright";
 					}
+					else if(t.contains("<funcsum>")){
+						int cutIndex = texts.get(index).indexOf("<");
+						texts.set(index, texts.get(index).substring(0, cutIndex));
+						tutorialImage = "funcsum";
+					}
 					else{
 						tutorialImage = "";
 					}
@@ -349,6 +354,16 @@ public class HelpText {
 					x = 315;
 					y = -5;
 					Res.rActionSprites.get(RAction.moveRight).draw(drawX/textScale + modX + x, drawY/textScale + y);
+					break;
+					
+				case "funcsum":
+					x = 185;
+					y = 45;
+					Res.rActionSprites.get(RAction.redSlot).draw(drawX/textScale + modX + x, drawY/textScale + y);
+					Res.rActionSprites.get(RAction.equals).draw(drawX/textScale + modX + x + 40, drawY/textScale + y);
+					Res.rActionSprites.get(RAction.redSlot).draw(drawX/textScale + modX + x + 80, drawY/textScale + y);
+					Res.rActionSprites.get(RAction.add).draw(drawX/textScale + modX + x + 120, drawY/textScale + y);
+					Res.rActionSprites.get(RAction.interact).draw(drawX/textScale + modX + x + 160, drawY/textScale + y);
 					break;
 				}
 			}

@@ -24,11 +24,12 @@ public class Game extends StateBasedGame{
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
-		this.addState(new SplashScreen());
-		this.addState(new MainMenu());
-		this.addState(new WorldMenu());
-		this.addState(new Play());
-		this.enterState(3);
+		this.addState(new MainMenu()); // 0
+		this.addState(new WorldMenu()); // 1
+		this.addState(new Play()); // 2
+		this.addState(new SplashScreen()); // 3
+		this.addState(new TheEnd()); // 4
+		this.enterState(0);
 	}
 	
 	public static void main(String args[]) throws SlickException{

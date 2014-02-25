@@ -22,8 +22,8 @@ public class GameTextSlot extends GameText{
 		
 		target.setY(target.getY()-20);
 		
-		this.targetSlot = new Point(Sidebar.robotInventory[targetSlot].pos.getX() + Game.PWIDTH + 5, Sidebar.robotInventory[targetSlot].pos.getY() + 5);
 		font = Res.futura24;
+		this.targetSlot = new Point(Sidebar.robotInventory[targetSlot].pos.getX() + Game.PWIDTH + 45 - font.getWidth(value+"")/2, Sidebar.robotInventory[targetSlot].pos.getY() + 13);
 	}
 	
 	@Override

@@ -365,12 +365,13 @@ public class Play extends BasicGameState implements CollisionListener{
 			Res.futura24.drawString(Game.GWIDTH/2 - Res.futura24.getWidth("QUIT GAME")/2, quitgame.pos.getY() + 5, "QUIT GAME", text);
 		}
 		
-		g.drawString("TIMER: " + timer/1000, 10, 50);
-		g.drawString("COMMANDS: " + ddaCommands, 10, 70);
-		g.drawString("RETRIES: " + ddaRetries, 10, 90);
-		g.drawString("ERRORS: " + ddaErrors, 10, 110);
-		g.drawString("REREAD: " + ddaReread, 10, 130);
-		g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
+		// dda status
+//		g.drawString("TIMER: " + timer/1000, 10, 50);
+//		g.drawString("COMMANDS: " + ddaCommands, 10, 70);
+//		g.drawString("RETRIES: " + ddaRetries, 10, 90);
+//		g.drawString("ERRORS: " + ddaErrors, 10, 110);
+//		g.drawString("REREAD: " + ddaReread, 10, 130);
+//		g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
 		
 		Level.challengeFunction();
 		
@@ -394,7 +395,7 @@ public class Play extends BasicGameState implements CollisionListener{
 		}
 		
 		g.setColor(c);
-		g.drawString("NEXT LEVEL: " + s, 10, 170);
+//		g.drawString("NEXT LEVEL: " + s, 10, 170);
 		g.setColor(Color.black);
 	}
 
@@ -446,15 +447,21 @@ public class Play extends BasicGameState implements CollisionListener{
 			// inside if(!helptext) from gotoNextLevel()
 			if(tutorialDone){
 				User.doneTutorial[world] = true;
-				if(world == 0){
+//				if(world == 0){
 					worldWin = true;
-				}				
+					nextWorld();
+//				}				
 			}
 			
 			if(!worldWin){
 				level++;
 				initLevel();
 			}
+			System.out.println("Tut done: " + tutorialDone);
+			System.out.println(User.doneTutorial[0]);
+			System.out.println(User.doneTutorial[1]);
+			System.out.println(User.doneTutorial[2]);
+			System.out.println(User.doneTutorial[3]);
 		}
 		
 		// gotoworld menu
@@ -475,7 +482,7 @@ public class Play extends BasicGameState implements CollisionListener{
 			// actual game logic
 			else{
 				timer += delta;
-				player.update(input, delta);
+				player.update(input, delta, sbg);
 				robot.update(input, delta);
 				
 				// Update all game texts
@@ -531,9 +538,9 @@ public class Play extends BasicGameState implements CollisionListener{
 		if(!HelpText.isAlive){
 			if(tutorialDone){
 				User.doneTutorial[world] = true;
-				if(world == 0){
+//				if(world == 0){
 					worldWin = true;
-				}				
+//				}				
 			}
 			
 			if(!worldWin){

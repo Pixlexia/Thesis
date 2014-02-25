@@ -56,12 +56,12 @@ public class Calculator {
 		
 		x = Sidebar.padding;
 		y = Sidebar.padding * 4 + bSize * 3;
-		buttons[3].pos.setX(x);
-		buttons[3].pos.setY(y);
+		buttons[1].pos.setX(x);
+		buttons[1].pos.setY(y);
 		buttons[2].pos.setX(x*2 + bSize);
 		buttons[2].pos.setY(y);
-		buttons[1].pos.setX(x*3 + bSize * 2);
-		buttons[1].pos.setY(y);
+		buttons[3].pos.setX(x*3 + bSize * 2);
+		buttons[3].pos.setY(y);
 		
 		x = Sidebar.padding;
 		y = Sidebar.padding * 5 + bSize * 4;

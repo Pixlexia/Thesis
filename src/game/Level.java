@@ -65,7 +65,7 @@ public class Level {
 		exitLocked = true;
 		
 		// actual game levels depending on the world
-		if(User.doneTutorial[Play.world]){
+		if(false && User.doneTutorial[Play.world]){
 			Random r = new Random();
 			int randomLvl = r.nextInt(5) + 1;
 
@@ -160,7 +160,7 @@ public class Level {
 			}
 		}
 		
-		if(User.doneTutorial[Play.world]){
+		if(false && User.doneTutorial[Play.world]){
 			initLevelData();
 		}
 		else{			
@@ -212,7 +212,8 @@ public class Level {
 		challengeFunction();
 		
 		// If tutorial done for this world, get a LevelData from the list of dynamic levels:
-		if(User.doneTutorial[Play.world] && Play.world != 0){
+//		if(User.doneTutorial[Play.world] && Play.world != 0){
+		if(false){
 		}
 		// Premade tutorial levels:
 		else{
@@ -258,7 +259,7 @@ public class Level {
 					
 				case 6:
 					addHelpManual("I couldn't jump or go up ladders, so be\ncareful!");
-					addHelp("Also you can delete commands on the\nprogram by clicking on them.");
+					addHelpManual("Also you can delete commands on the\nprogram by clicking on them.");
 					Play.tutorialDone = true;
 					break;
 				} // end world == tutorial
@@ -269,9 +270,9 @@ public class Level {
 				showGreenguy();
 				switch (Play.level) {
 				case 1:
-					Sidebar.maxRactions = 24;
-					Sidebar.maxCommands = 24;
-					addHelp("So far so good! This time, I'm gonna need to store some data to my slots.");
+					Sidebar.maxRactions = 8;
+					Sidebar.maxCommands = 6;
+					addHelp("So far so good! This time, I'm gonna need to store some numbers to my slots.");
 					addHelpManual("I have 3 slots, each of which can hold one\nnumber for later use:<showslots>");
 					addHelpManual("To store a number to my red slot for\nexample, I can do this:\n<red equal num>");
 					addHelpManual("The # command will open up an input box\nwhere you can enter your desired number.");
@@ -425,7 +426,7 @@ public class Level {
 					Play.tutorialDone = true;
 					computers.get(0).value = 2;
 					Sidebar.maxCommands = 18;
-					addHelp("I need to get that computer's data. I need it on yellow if it's a 1-digit number. But if it's a 2-digit number, it should go to red.");				
+					addHelp("I need to get that computer's data. I need it on yellow if it's a 1-digit number. If not, it should go to red.");				
 					addHelp("Use your newly learned if/else statements!");				
 					break;
 				}
@@ -496,7 +497,14 @@ public class Level {
 					break;
 					
 				case 2:
-					addHelp("hi");
+					Sidebar.maxRactions = 24;
+					Sidebar.maxCommands = 12;
+					Sidebar.fui1 = new Function(12);
+					Sidebar.fui2 = new Function(12);
+					computers.get(0).value = 10;
+					addHelp("I need that computer's data on my blue and red slot.");
+					addHelp("Maybe you could use function F(x)1 with move right commands, and function F(x)2 with move left commands.");
+					Play.tutorialDone = true;
 				}
 				break;// end functions world
 			}// end switch Play.world
@@ -599,7 +607,7 @@ public class Level {
 						win = true;
 						new HelpText();
 						HelpText.counter = 0;
-						addHelp("Awesome! Take note though, I can only evaluate expressions with up to two operands at a time.");
+						addHelpManual("Awesome! Take note though, I can only\nevaluate expressions with up to two\noperands at a time.");
 					}
 					break;
 					
@@ -679,7 +687,7 @@ public class Level {
 				}
 				break;
 				
-				// Loops
+			// Loops
 			case 3:
 				switch(Play.level){
 				case 1:
@@ -713,6 +721,7 @@ public class Level {
 				}
 				break;
 				
+			// functions
 			case 4:
 				switch(Play.level){
 				case 1:
@@ -720,7 +729,17 @@ public class Level {
 						win = true;
 					}
 					break;
+					
+				case 2:
+					
+					
+				case 3:
+					if(Robot.inventory[0] == computers.get(0).value && Robot.inventory[2] == computers.get(0).value){
+						win = true;
+					}
+					break;
 				}
+				
 				break;
 			}
 		}// end bigass switch

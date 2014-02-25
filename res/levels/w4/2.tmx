@@ -5,12 +5,12 @@
  </tileset>
  <layer name="art" width="17" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC9WQQQoAIAgEk8j/P7lLgYjIaKcGBKEcZcf4EzmlpvdvEsxRR/Q3Q+GuFwchc9BcKnd4l7jq5FJ1ELq5LOi4TOP0bpJ9dE/HQdjGfCJs/AMAAA==
+   H4sIAAAAAAAAC2NgIB4wkqCWHDOINZ8RCbPhkSPWPHQzyAGEzMDnFjYG4tyLz2/08AMtzUD2Dylm4AoTXOmDHECJGaxEmoEen8xocuSkD0LqAealv+38AwAA
   </data>
  </layer>
  <layer name="data" width="17" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIA1I4pGTINGsUTAKRsHAAQA6wupY/AMAAA==
+   H4sIAAAAAAAAC2NgIA1I4hCXINGcUTAKRsHAAgBW+i6I/AMAAA==
   </data>
  </layer>
 </map>
