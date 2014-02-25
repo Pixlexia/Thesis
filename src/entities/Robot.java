@@ -167,7 +167,7 @@ public class Robot extends Character{
 				new HelpText();
 				
 				if(!User.doneTutorial[Play.world]){
-					Level.initLevelData();
+					Level.initTutorialLevelData();
 				}
 				else{
 					LevelData levelData = Level.levelData;

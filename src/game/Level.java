@@ -68,12 +68,29 @@ public class Level {
 		if(User.doneTutorial[Play.world]){
 			Random r = new Random();
 			int randomLvl = r.nextInt(5) + 1;
-			System.out.println("RANDOM LVL: " + randomLvl);
+
+//			initLevelData();
+
+			System.out.println(Play.world);
+			levelData = getLevel();
 			
-			map = new TiledMap("res/levels/layouts/0_" + randomLvl + ".tmx"); // comp_lvl.tmx
+			// sidebar ractions, commands
+			Sidebar.maxRactions = levelData.maxRactions;
+			Sidebar.maxCommands = levelData.maxCommands;
+			
+			// helptexts
+			for(String s : levelData.t){
+				addHelp(s);
+			}
+						
+			System.out.println("# of comps in leveldata: " + levelData.compValues.size());
+			
+			System.out.println("Level layout: " + levelData.compValues.size() + "_" + randomLvl);
+			map = new TiledMap("res/levels/layouts/"+levelData.compValues.size()+"_" + randomLvl + ".tmx"); // comp_lvl.tmx
+			
 		}
 		// tutorial level
-		else{			
+		else{		
 			map = new TiledMap("res/levels/w" + Play.world + "/" + Play.level + ".tmx");
 		}
 		
@@ -143,27 +160,59 @@ public class Level {
 			}
 		}
 		
-		initLevelData();
+		if(User.doneTutorial[Play.world]){
+			initLevelData();
+		}
+		else{			
+			initTutorialLevelData();
+		}
+
 	}
 	
 	public static void challengeFunction(){
-		User.rating = Play.ddaCommands + Play.ddaErrors + Play.ddaReread + Play.ddaRetries + Play.ddaTime/1000;
+		Play.ddaTime = Play.timer/1000;
+		int rating;
+		rating = Play.ddaCommands + Play.ddaErrors + Play.ddaReread + Play.ddaRetries + Play.ddaTime;
+		
+		if(rating < 5){
+			User.rating = 2;
+		}
+		else if(rating >= 5 && rating < 10){
+			User.rating = 1;
+		}
+		else if(rating >= 10){
+			User.rating = 0;
+		}
 	}
 	
-	public static void initLevelData() throws SlickException{
+	// get a level from World1, World2 etc depending on the current Play.world
+	// specify the difficulty of next level depending on the user rating
+	public LevelData getLevel(){		
+		// calculate current user rating using the challenge function
+		Level.challengeFunction();
+		
+		switch(Play.world){
+		case 1:	return Play.world1.getLevel();
+//		case 2:	return World2.getLevel();
+//		case 3:	return World3.getLevel();
+//		case 4:	return World4.getLevel();
+		}
+		
+		return null;
+	}
+	
+	public static void initLevelData(){
+		for(int i = 0 ; i < levelData.compValues.size(); i++){
+			computers.get(i).value = levelData.compValues.get(i);
+		}
+	}
+	
+	public static void initTutorialLevelData() throws SlickException{
+		
+		challengeFunction();
+		
 		// If tutorial done for this world, get a LevelData from the list of dynamic levels:
 		if(User.doneTutorial[Play.world] && Play.world != 0){
-			System.out.println(Play.world);
-			levelData = LevelData.getLevel();
-			
-			// sidebar ractions, commands
-			Sidebar.maxRactions = levelData.maxRactions;
-			Sidebar.maxCommands = levelData.maxCommands;
-			
-			// helptexts
-			for(String s : levelData.t){
-				addHelp(s);
-			}
 		}
 		// Premade tutorial levels:
 		else{

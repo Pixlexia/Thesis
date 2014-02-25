@@ -23,6 +23,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import worldlevels.World1;
+import worldlevels.World2;
+import worldlevels.World3;
+import worldlevels.World4;
 import entities.Button;
 import entities.Function;
 import entities.GameText;
@@ -62,11 +65,20 @@ public class Play extends BasicGameState implements CollisionListener{
 	public static int ddaTime, ddaCommands, ddaRetries, ddaErrors, ddaReread;
 	public static int timer; // not actual dda, just timer
 	
+	// WorldLevels
+	public static World1 world1;
+	public static World2 world2;
+	public static World3 world3;
+	public static World4 world4;
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		new Res();
 		new User();
-		new World1();
+		world1 = new World1();
+		world2 = new World2();
+		world3 = new World3();
+		world4 = new World4();
 		
 		level = 1;
 		world = 0;
@@ -359,6 +371,31 @@ public class Play extends BasicGameState implements CollisionListener{
 		g.drawString("ERRORS: " + ddaErrors, 10, 110);
 		g.drawString("REREAD: " + ddaReread, 10, 130);
 		g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
+		
+		Level.challengeFunction();
+		
+		String s = "";
+		Color c = null;
+		switch(User.rating){
+		case 0:
+			c = Color.green;
+			s = "EASY";
+			break;
+			
+		case 1:
+			s = "MEDIUM";
+			c = Color.orange;
+			break;
+			
+		case 2:
+			s = "HARD";
+			c = Color.red;
+			break;
+		}
+		
+		g.setColor(c);
+		g.drawString("NEXT LEVEL: " + s, 10, 170);
+		g.setColor(Color.black);
 	}
 
 	@Override

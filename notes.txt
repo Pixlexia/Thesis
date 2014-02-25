@@ -123,7 +123,7 @@ explanations are incorporated between play rounds
 self-explanation questions
 visual support
 unguided exploration is avoided
-game goal complexity adapt to learnergx
+game goal complexity adapt to learner
 game is easy to use via simple GUI design and pretraining (tutorials)
 
 # EVIDENCE BASED PRACTICE [3] p 50

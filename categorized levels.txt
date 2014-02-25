@@ -1,0 +1,66 @@
+W1 - Variables
+Easy
+	store # to a slot - 0
+	store # to 2 slots - 0
+	store # to 3 slots - 0
+	store 2 # to 2 slots - 0
+
+Medium
+	store 3 # to 3 slots - 0
+	store # operation comp1 to slot - 0
+	store comp1 to slotA, comp2 to slotB - 2
+	store comp1 operation comp2 to slotA - 2
+
+Hard
+	store the sum of all computers to slotA - 3
+	swap 2 comps - 2
+	store half of comp1 operation half of comp2 to slot - 2
+	store avg of 2 computers to slot - 2
+====================================================================
+W2 - Conditions
+Easy
+	if comp boolop #, store to slotA - 1
+	if comp boolop #, store to slotA else to slotB - 1
+	if comp boolop #a, store #b to slotA - 1
+	if comp boolop #, store #a to slotA, else store #b to slotA - 1
+
+Medium
+	store the larger computer value among 2, to slotA - 2
+	if half of comp1 boolop #, store to slotA, else to slotB - 1
+	if comp1 is a multiple of #, store it to slotA - 1
+	if comp1 operation #, store to slotA, else to slotB - 1
+
+Hard
+	store the larger compter value to slotA and the lesser to slotB - 2
+	store the smallest computer value among the 3 to slotA - 3
+	store the largest computer value among the 3 to slotA - 3
+	if avg of 2 comps boolop #, store to slotA - 2
+====================================================================
+W3 - Loops
+Easy
+	move # times to get to get comp - 1
+	move # times to left, then move # times to right to get comp - 1
+	move leftleftright # times - 1
+	get sum of computers (straight line) - 3
+
+Medium
+	get avg of computers (straight line) - 3+
+
+
+Hard
+	get avg of computers with layout pattern - 5+
+	add all computers - 5+
+	add all the 2 digit computer values store to slotA - 4+
+
+
+====================================================================
+W4 - Functions
+Easy
+	store all the comps operation # to slotA B and C - 3
+
+Medium
+	add 1/2 of all computers
+	get the sum of all computers that are divisible by 2 - 3+
+
+Hard
+	add x2 of the all the single digit computers, store to slotA - 4+

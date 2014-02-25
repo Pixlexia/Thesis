@@ -29,11 +29,13 @@ public class Game extends StateBasedGame{
 	}
 	
 	public static void main(String args[]) throws SlickException{
+		
 		AppGameContainer appgc = new AppGameContainer(new Game());
 		appgc.setDisplayMode(GWIDTH, GHEIGHT, false);
 		appgc.setTargetFrameRate(60);
 		appgc.setShowFPS(false);
 		appgc.start();
+
 	}
 	
 }
