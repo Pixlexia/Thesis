@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.SplashScreen;
+
 public class Game extends StateBasedGame{
 
 	public static int GWIDTH = 1000, GHEIGHT = 600;
@@ -22,10 +24,11 @@ public class Game extends StateBasedGame{
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		this.addState(new SplashScreen());
 		this.addState(new MainMenu());
 		this.addState(new WorldMenu());
 		this.addState(new Play());
-		this.enterState(0);
+		this.enterState(3);
 	}
 	
 	public static void main(String args[]) throws SlickException{

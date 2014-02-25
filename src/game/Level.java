@@ -549,7 +549,7 @@ public class Level {
 						win = true;
 						new HelpText();
 						HelpText.counter = 0;
-						addHelpManual("Awesome! Now that you've learned the\nbasics, you're ready for some real\nprogramming shit!");
+						addHelpManual("Awesome! Now that you've learned the\nbasics, you're ready for some real\nprogramming stuff!");
 					}
 					break;
 				}

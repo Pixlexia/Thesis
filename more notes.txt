@@ -26,14 +26,21 @@ topics:
 - functions
 
 ===
-WRITTEN EXAM-ish
 
-(interest questionnaire + measure knowledge)
+QUESTIONNAIRE FOR STUDENTS
 
 1) before playing the game, were you interested in taking up a programming-related course in college?
 
 2) after playing the game, are you interested in taking up a programming-related course in college?
 
+3) did you enjoy playing the game?
+
+4) did you learn something from the game?
+
+
+
+
+WRITTEN EXAM-ish
 (game screenshot)
 
 3) based on the figure above: right right if(computer==5) blue = computer else blue = 10

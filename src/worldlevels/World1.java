@@ -150,6 +150,7 @@ public class World1 extends WorldLevel{
 		Slot slot, slot2, slot3;
 		Operator op;
 		int x, y, z;
+		String s;
 		
 		// 1
 		// store the sum of 3 comps to slot
@@ -165,6 +166,46 @@ public class World1 extends WorldLevel{
 		
 		ld.slotAns.put(slot, x+y+z);
 		ld.t.add("FOR THIS LEVEL, GET THE SUM OF ALL THE COMPUTERS AND STORE IT TO SLOT " + slot);
+		hard.add(ld);
+		
+		// 2
+		// swap 2 computers
+		
+//		// 3
+//		// store half of comp1 operation half of comp2 to slot
+//		ld = new LevelData();
+//		x = r.nextInt(99/2) * 2;
+//		y = r.nextInt(99/2) * 2;
+//		ld.compValues.add(x);
+//		ld.compValues.add(y);
+//		op = randOp();
+//		slot = randSlot(ld);
+//		ld.slotAns.put(slot, evalOp(x, y/2, op));
+//		
+//		if(op == Operator.SUB){
+//			s = "SUBTRACT HALF THE FIRST COMPUTER'S VALUE FROM THE VALUE OF THE OTHER COMPUTER, AND STORE THE DIFFERENCE TO " + slot + ".";
+//		}
+//		else{
+//			s = "ON MY " + slot + " SLOT, I NEED THE " + Res.operators.get(op) + " OF THE VALUE OF THE COMPUTER ON THE RIGHT AND HALF THE OTHER COMPUTER'S VALUE.";
+//		}
+//		ld.t.add(s);			
+//		hard.add(ld);
+		
+		// 4
+		// get average of all comps
+		ld = new LevelData();
+		x = r.nextInt(99);
+		y = r.nextInt(99);
+		z = r.nextInt(99);
+		
+		ld.compValues.add(x);
+		ld.compValues.add(y);
+		ld.compValues.add(z);
+		
+		slot = randSlot(ld);
+		ld.slotAns.put(slot, (x+y+z)/3);
+		
+		ld.t.add("GET THE AVERAGE OF ALL THE COMPUTER'S VALUES AND STORE IT TO " + slot);
 		hard.add(ld);
 	}
 	

@@ -5,7 +5,7 @@
  </tileset>
  <layer name="art" width="18" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGBjATKF+RiyYXDOo5Q5qmAEzh5UE/WxYzEDHbESaMxTUkBrvtDAHOf0Saw6hOKI0PdMTAAAdpWu/OAQAAA==
+   H4sIAAAAAAAAC2NgGBjATKF+RiyYXDOo5Q5yADMDdn+wkmAGGxYz0DEbkeYMBTWkxvtgMYdQHFGanukJAHqh2tY4BAAA
   </data>
  </layer>
  <layer name="data" width="18" height="15">

@@ -17,9 +17,12 @@ import net.phys2d.math.Vector2f;
 import net.phys2d.raw.Body;
 import net.phys2d.raw.shapes.Box;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -45,7 +48,11 @@ public class Player extends Character{
 	public static float offsetX, offsetY;
 	public static float renderX, renderY;
 	
-	public Player(float x, float y){
+	// animations
+	Animation animation, walkRight, walkLeft, idleRight, idleLeft;
+	Animation jumpRight, fallRight, jumpLeft, fallLeft;
+	
+	public Player(float x, float y) throws SlickException{
 		super(x, y);
 		
 		offsetX = 0;
@@ -63,6 +70,48 @@ public class Player extends Character{
 		camSpeed = 0;
 		camMove = new Vector2f(0,0);
 		camAcc = 0.2f;
+		
+		// animations
+		Image[] rightImgs = new Image[6];
+		for(int i = 0; i < rightImgs.length; i++){
+			rightImgs[i] = new Image("res/player/right_" + i + ".png");			
+		}
+		
+		Image[] leftImgs = new Image[6];
+		for(int i = 0; i < leftImgs.length; i++){
+			leftImgs[i] = rightImgs[i].getFlippedCopy(true, false);			
+		}
+		
+		Image[] idleImgs = new Image[3];
+		Image[] idleImgs2 = new Image[3];
+		for(int i = 0; i < idleImgs.length; i++){
+			idleImgs[i] = new Image("res/player/idle_" + i + ".png");
+			idleImgs2[i] = idleImgs[i].getFlippedCopy(true, false);
+		}
+		
+		Image[] jumpR = new Image[1];
+		Image[] jumpL = new Image[1];
+		
+		jumpR[0] = new Image("res/player/right_2.png");
+		jumpL[0] = jumpR[0].getFlippedCopy(true, false);		
+		
+		Image[] fallR = new Image[1];
+		Image[] fallL = new Image[1];
+		fallR[0] = new Image("res/player/right_1.png");
+		fallL[0] = fallR[0].getFlippedCopy(true, false);
+		
+		int duration = 100;
+		animation = new Animation(true);
+		walkLeft = new Animation(leftImgs, duration, true);
+		walkRight = new Animation(rightImgs, duration, true);
+		idleRight = new Animation(idleImgs, duration*2, true);
+		idleLeft = new Animation(idleImgs2, duration*2, true);
+		jumpRight = new Animation(jumpR, 100, true);
+		jumpLeft = new Animation(jumpL, 100, true);
+		fallRight = new Animation(fallR, 100, true);
+		fallLeft = new Animation(fallL, 100, true);
+		
+		animation = idleRight;
 	}
 	
 	public void update(Input input, int delta){
@@ -195,6 +244,41 @@ public class Player extends Character{
 		r.setX(renderX);
 		r.setY(renderY);
 		
-		g.fill(r);		
+		
+		
+		if(body.getVelocity().getY() < 0){
+			if(body.getVelocity().getX() > 0)
+				animation = jumpRight;
+			else
+				animation = jumpLeft;
+		}
+		else if(body.getVelocity().getY() > 0){
+			if(body.getVelocity().getX() > 0)
+				animation = fallRight;
+			else
+				animation = fallLeft;
+		}
+		else{
+			// update animations
+			if((int) body.getVelocity().getX() > 0){
+				animation = walkRight;
+			}
+			else if((int) body.getVelocity().getX() < 0){
+				animation = walkLeft;
+			}
+			else{
+				if(body.getVelocity().getX() < 0)
+					animation = idleRight;
+				else
+					animation = idleLeft;
+			}	
+		}
+		
+		animation.draw(r.getX() + r.getWidth()/2 - animation.getCurrentFrame().getWidth()/2, r.getY() - 8);
+//		g.drawAnimation(animation, 0, 0);
+		
+		System.out.println(body.getVelocity().getX());
+		
+//		g.fill(r);		
 	}
 }

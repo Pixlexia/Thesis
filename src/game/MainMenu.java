@@ -66,7 +66,7 @@ public class MainMenu extends BasicGameState {
 		
 		g.setColor(new Color(0, 0, 0, 0.8f));
 		
-		Res.centerText(Res.futura72, "UN1TITLED THESIS GAME THING", Game.GWIDTH/2, 120);
+		Res.centerText(Res.futura72, "TEMPORARY TITLE", Game.GWIDTH/2, 120);
 
 		enter.render(g);
 		Res.centerText(Res.futura36, "PLAY", Game.GWIDTH/2, 455, new Color(50, 50, 50));
