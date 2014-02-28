@@ -37,6 +37,7 @@ CHAPTER 4
 - binary file
 	User
 	- username
+	- 
 	
 
 5. test and evaluate through game scores and written exam:
@@ -104,7 +105,7 @@ d) give liberal practice opportunities
 e) summarize and call for reflection
 
 
-# EVENTS OF INSTRUCTION according to Kruse, 2000,
+# EVENTS OF INSTRUCTION according to Gagne[9]
 necessary conditions for learning, basis for designing instruction
 1. Gain the learner’s attention (reception).
 2. Inform the learner of the objectives (expectancy).
@@ -133,7 +134,6 @@ when designing a course, base decisions on sources including:
 - politics (what the subject-matter experts or legal dept advises)
 - ideology (what seems consistent with a particular approach to instruction)
 
-
 ============
 [1] http://www.wseas.us/e-library/conferences/2009/prague/ICAI/ICAI36.pdf
 [2] shute_towle.pdf
@@ -143,3 +143,7 @@ when designing a course, base decisions on sources including:
 [6] Van der Linden, W. Conceptual issues in response-item modeling. Journal of Educational Measurement. (2009) (as shown in http://www.fi.muni.cz/~xpelanek/publications/its12.pdf)
 [7] Analysis of a Simple Model of Problem Solving Times (http://www.fi.muni.cz/~xpelanek/publications/its12.pdf)
 [8] http://www-kd.iai.uni-bonn.de/icml2010mlg/papers/GoetschalckxEtAl.pdf
+[9] Gagne's book, The Conditions of Learning, first published in 1965, identified the mental conditions for learning
+[10] http://link.springer.com/article/10.1007/s10994-006-6205-6 (Charles & Black)
+
+100 = 

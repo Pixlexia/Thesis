@@ -29,7 +29,7 @@ topics:
 
 QUESTIONNAIRE FOR STUDENTS
 
-1) before playing the game, were you interested in taking up a programming-related course in college?
+1) Before playing the game, were you interested in taking up a programming-related course in college?
 
 2) after playing the game, are you interested in taking up a programming-related course in college?
 
@@ -37,7 +37,7 @@ QUESTIONNAIRE FOR STUDENTS
 
 4) did you learn something from the game?
 
-
+5) were the lessons taught easy to understand?
 
 
 WRITTEN EXAM-ish
