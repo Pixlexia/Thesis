@@ -50,9 +50,9 @@ public class Play extends BasicGameState implements CollisionListener{
 	
 	public static ArrayList<GameText> gTexts;
 	
+	
 	public static boolean worldWin;
-	public static boolean tutorialDone;
-	public static boolean levelWin;
+	public static boolean isLastTutorialLevel;
 	public static boolean gamePaused;
 	
 	// pause elements
@@ -71,10 +71,13 @@ public class Play extends BasicGameState implements CollisionListener{
 	public static World3 world3;
 	public static World4 world4;
 	
+	// User
+	public static User user;
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		new Res();
-		new User();
+		user = new User();
 		world1 = new World1();
 		world2 = new World2();
 		world3 = new World3();
@@ -242,7 +245,6 @@ public class Play extends BasicGameState implements CollisionListener{
 			System.out.println(Robot.loops.size());
 		}
 		Robot.doneRun = false;
-		levelWin = false;
 		physWorld = new World(new Vector2f(0.0f, 1000), 100);
 		new Level();
 		
@@ -271,7 +273,7 @@ public class Play extends BasicGameState implements CollisionListener{
 		level = 1;
 		
 		if(world == 0){
-			User.doneTutorial[world] = false;
+			user.doneTutorial[world] = false;
 		}
 		
 		try {
@@ -283,7 +285,12 @@ public class Play extends BasicGameState implements CollisionListener{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.setBackground(Color.white);
+		g.setBackground(new Color(242, 242, 238));
+		
+		g.drawImage(Res.bg1, 0 + (int) Player.offsetX/5, 200);
+		g.drawImage(Res.bg1, Res.bg1.getWidth() + (int) Player.offsetX/5, 200);
+		g.drawImage(Res.bg2, (int) 0 + (int) Player.offsetX/2, 300);
+		g.drawImage(Res.bg2, (int) Res.bg2.getWidth() + (int) Player.offsetX/2, 300);
 		
 		// translate -----------
 		g.translate(Player.offsetX - Player.camX, Player.offsetY);
@@ -292,6 +299,8 @@ public class Play extends BasicGameState implements CollisionListener{
 		Level.map.render(0, 0, 0); // layer 0 only (layer 1 is invi layer)
 		
 		robot.render(g);
+		
+//		showGrid = false;
 		
 		// Draw grid
 		g.setClip(0, 0, Game.PWIDTH, Game.GHEIGHT);
@@ -340,7 +349,6 @@ public class Play extends BasicGameState implements CollisionListener{
 
 		HelpText.render(g);
 		
-		
 		// pause menu
 		if(gamePaused){
 			g.setColor(new Color(255, 255, 255, 0.7f));
@@ -365,19 +373,22 @@ public class Play extends BasicGameState implements CollisionListener{
 			Res.futura24.drawString(Game.GWIDTH/2 - Res.futura24.getWidth("QUIT GAME")/2, quitgame.pos.getY() + 5, "QUIT GAME", text);
 		}
 		
-		// dda status
-//		g.drawString("TIMER: " + timer/1000, 10, 50);
-//		g.drawString("COMMANDS: " + ddaCommands, 10, 70);
-//		g.drawString("RETRIES: " + ddaRetries, 10, 90);
-//		g.drawString("ERRORS: " + ddaErrors, 10, 110);
-//		g.drawString("REREAD: " + ddaReread, 10, 130);
-//		g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
+		// dda display
+		boolean displayDDA = true;
 		
-		Level.challengeFunction();
+		if(displayDDA){
+			g.drawString("TIMER: " + timer/1000, 10, 50);
+			g.drawString("COMMANDS: " + ddaCommands, 10, 70);
+			g.drawString("RETRIES: " + ddaRetries, 10, 90);
+			g.drawString("ERRORS: " + ddaErrors, 10, 110);
+			g.drawString("REREAD: " + ddaReread, 10, 130);
+			g.drawString("TIME SOLVED: " + ddaTime/1000, 10, 150);
+			g.drawString("RATING: " + Level.challengeFunction(), 10, 170);
+		}
 		
 		String s = "";
 		Color c = null;
-		switch(User.rating){
+		switch(Level.getLevelDifficulty(Level.challengeFunction())){
 		case 0:
 			c = Color.green;
 			s = "EASY";
@@ -395,10 +406,11 @@ public class Play extends BasicGameState implements CollisionListener{
 		}
 		
 		g.setColor(c);
-//		g.drawString("NEXT LEVEL: " + s, 10, 170);
+		g.drawString("NEXT LEVEL: " + s, 10, 190);
 		g.setColor(Color.black);
+		
 	}
-
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
@@ -444,24 +456,54 @@ public class Play extends BasicGameState implements CollisionListener{
 		
 		// skip level+1
 		if(input.isKeyPressed(Input.KEY_ENTER)){
-			// inside if(!helptext) from gotoNextLevel()
-			if(tutorialDone){
-				User.doneTutorial[world] = true;
-//				if(world == 0){
-					worldWin = true;
-					nextWorld();
-//				}				
+			// see if the level just completed is the last tutorial level
+			// for that world.
+			if(Play.isLastTutorialLevel){
+				Play.user.doneTutorial[Play.world] = true;
+				
+				if(Play.world == 0){
+					Play.worldWin = true;
+				}
 			}
 			
-			if(!worldWin){
-				level++;
-				initLevel();
+			// add levelfinished count
+			if(Play.user.doneTutorial[Play.world]){
+				Play.user.finishedLevels[Play.world]++;
 			}
-			System.out.println("Tut done: " + tutorialDone);
-			System.out.println(User.doneTutorial[0]);
-			System.out.println(User.doneTutorial[1]);
-			System.out.println(User.doneTutorial[2]);
-			System.out.println(User.doneTutorial[3]);
+			else{
+				Play.user.finishedTutorialLevels[Play.world]++;
+			}
+			
+			// if tutorial levels are done, proceed with actual game levels (except for world == 0, goto next world)
+			if(Play.user.doneTutorial[Play.world]){	
+				// tutorial world
+				if(Play.world == 0){
+					Play.worldWin = true;
+				}
+				// other worlds
+				else{
+					Play.user.addScore(Level.getLevelDifficulty(Level.challengeFunction()));
+					System.out.println("player getworldscores size = " + Play.user.getWorldScores(Play.world).size());
+					if(Play.user.getWorldScores(Play.world).size() >= 10){
+						Play.worldWin = true;
+					}
+					else
+						Play.worldWin = false;
+				}
+			}
+			else{
+				
+			}
+
+			if(!Play.worldWin){
+				Play.level++;
+				Play.initLevel();
+			}
+			else{ // gotonextworld
+				Play.nextWorld(sbg);
+			}
+
+			Play.user.saveData();
 		}
 		
 		// gotoworld menu
@@ -507,16 +549,6 @@ public class Play extends BasicGameState implements CollisionListener{
 			
 			Res.updateCursor(gc);
 			
-			// check if win
-			if(worldWin){
-				WorldMenu.unlockNewWorld();
-				worldWin = false;
-				WorldMenu.clickRight();
-				sbg.enterState(1);
-			}
-			else if(levelWin){
-				gotoNextLevel();
-			}
 			// GAME LOOP END
 		}
 		// paused
@@ -525,29 +557,19 @@ public class Play extends BasicGameState implements CollisionListener{
 			gotoworldselect.update(delta, input.getMouseX(), input.getMouseY(), input);
 			quitgame.update(delta, input.getMouseX(), input.getMouseY(), input);
 		}
-		
-		
 	}
 
-	public static void nextWorld(){
-		worldWin = true;
-		tutorialDone = false;
-	}
-	
-	public static void gotoNextLevel() throws SlickException{
-		if(!HelpText.isAlive){
-			if(tutorialDone){
-				User.doneTutorial[world] = true;
-//				if(world == 0){
-					worldWin = true;
-//				}				
-			}
-			
-			if(!worldWin){
-				level++;
-				initLevel();
-			}
+	public static void nextWorld(StateBasedGame sbg){
+		if(Play.world != 4)
+			isLastTutorialLevel = false;
+		else{
+			sbg.enterState(4);
 		}
+
+		WorldMenu.unlockNewWorld();
+		Play.worldWin = false;
+		WorldMenu.clickRight();
+		sbg.enterState(1);
 	}
 	
 	@Override

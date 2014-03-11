@@ -23,6 +23,7 @@ public class MainMenu extends BasicGameState {
 		enter = new Button(Game.GWIDTH/2 - 300/2, 450, 300, 50){
 			@Override
 			public void onClick(){
+				super.onClick();
 				sbg.enterState(1);
 			}
 			
@@ -32,10 +33,16 @@ public class MainMenu extends BasicGameState {
 			}
 		};
 		
-		enter.color = new Color(220, 220, 220);
-		enter.hoverColor = new Color(220, 220, 220);
+		enter.color = new Color(240, 240, 240);
+		enter.hoverColor = new Color(230, 230, 230);
 		enter.borderRadius = 5;
 		enter.inflateRate = 2;
+		
+		enter.stroke = true;
+		enter.dropShadow = true;
+		enter.innerGlow = true;
+		enter.halfShadow = true;
+		enter.clickSound = Res.key1;
 		
 		gridx = 0;
 		gridy = 0;
@@ -66,7 +73,7 @@ public class MainMenu extends BasicGameState {
 		
 		g.setColor(new Color(0, 0, 0, 0.8f));
 		
-		Res.centerText(Res.futura72, "TEMPORARY TITLE", Game.GWIDTH/2, 120);
+		Res.centerText(Res.futura72, "SEUMAS & RITCHIE", Game.GWIDTH/2, 120);
 
 		enter.render(g);
 		Res.centerText(Res.futura36, "PLAY", Game.GWIDTH/2, 455, new Color(50, 50, 50));

@@ -1,30 +1,37 @@
 TODO
 
 Coding
-- make the levels
+- 10 levels after tutorial
 - user login
 - user load data
 - user save data
 - record user data (if tutorials finished)
-- adaptive algorithm
 - what happens if finish tutorial/some levels then go to world again?
-- interest level?
 
 - reset the counter for inner loops after first iteration of parent/outer loop
-- function tutorials
 
 Bugs:
 - minor bug: when if-condition is false, error commands inside the if body are also skipped
 - fix gametext when getting computer data
 
-Art
-- all sprites
-
 Polishing
+- dialog texts
+- sounds
+	- jump
+	- button clicks
+	- walk
+	- robot move
+	- robot execute commands
+	- exit unlocked
+- jump particles
+- exit particles?
 - "victory" screen after level complete?
 - state transitions
 
 Done:
+- adaptive algorithm
+- function tutorials
+- make the levels
 - recrod performance (see DDA factors)
 - exit
 - inventory

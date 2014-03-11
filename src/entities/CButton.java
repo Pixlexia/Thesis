@@ -34,24 +34,50 @@ public class CButton extends Button{
 		renderNow = false;
 		Random r = new Random();
 
-		enlargeSize = 7f;
+		enlargeSize = 3f;
 		inflateRate = 3f;
 		timeBeforeInflate = r.nextInt(10*Sidebar.maxRactions);
+		
+		borderRadius = 4;
 	}
 	
 	public void render(Graphics g){
-		if(isHovered){
-			g.setColor(new Color(255, 255, 255, 255));
-		}
-		else{
-			g.setColor(new Color(255, 255, 255, 200));
-		}
-		
 		if(renderNow){
-			g.fill(getBounds());
-			g.drawImage(hoverImage, (int) imagePos.getX(), (int) imagePos.getY());			
+			
+			// drop shadow
+			g.setColor(new Color(190, 190, 180));
+			g.fillRoundRect(getBounds().getX() - 1,getBounds().getY()+4, getBounds().getWidth() + 2, getBounds().getHeight(), borderRadius);
+
+			g.setLineWidth(2);
+
+			if(isHovered){
+//				g.setColor(new Color(240, 240, 240));
+			}
+			else{
+			}
+			
+			g.setColor(new Color(250, 250, 250));
+			
+			g.fillRoundRect(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight(), borderRadius);
+			
+
+			// outer stroke
+			g.setColor(new Color(200, 200, 200, 255));
+			g.draw(getBounds());
+			
+			// inner glow
+			g.setColor(Color.white);
+			g.drawRect(getBounds().getX()+2, getBounds().getY()+2, getBounds().getWidth() - 5, getBounds().getHeight() - 5);
+			
+			// shadow bottom half
+			g.setColor(new Color(0, 0, 0, 0.05f));
+			g.fillRect(getBounds().getX() + 3, getBounds().getY()+getBounds().getHeight()/2, getBounds().getWidth() - 6, getBounds().getHeight()/2 - 3);
+			
+			g.scale(0.75f, 0.75f);
+			g.drawImage(hoverImage, (int) imagePos.getX() * 1/0.75f + 5, (int) imagePos.getY() * 1/0.75f + 6);
+			g.scale(1/0.75f, 1/0.75f);
+
 		}
-		
 //		if(!HelpText.isAlive)
 	}
 	
@@ -69,17 +95,24 @@ public class CButton extends Button{
 	}
 	
 	@Override
+	public void onHover(){
+		super.onHover();
+		Res.hover2.play();
+	}
+	
+	@Override
 	public void isHovered(){
 		super.isHovered();
-		enlargeSize = 2;
+		enlargeSize = 2f;
 		inflate();
 	}
 	
 	@Override
 	public void onClick(){
+		Res.click.play();
 		if(!Sidebar.showCalculator){
 			super.onClick();
-			enlargeSize = 7;
+			enlargeSize = 10f;
 			inflate();
 			
 			int size = 0, max = 0;

@@ -15,6 +15,7 @@ import java.util.Stack;
 import net.phys2d.raw.Body;
 import net.phys2d.raw.shapes.Box;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -72,6 +73,7 @@ public class Robot extends Character{
 	
 	// animations
 	Image sprite;
+	boolean facingRight;
 	
 	public Robot(float x, float y) throws SlickException {
 		super(x, y);
@@ -96,11 +98,40 @@ public class Robot extends Character{
 		body.setFriction(2f);
 		body.setMaxVelocity(maxSpeed.x, maxSpeed.y);
 		
-		sprite = new Image("res/greenguy.png");
+		sprite = new Image("res/ritchie/idle1.png");
 		
 		doneRun = false;
 		
 		functions = new Stack<Function>();
+		
+		facingRight = true;
+		
+		// animations
+		Image[] rightImgs = new Image[5];
+		for(int i = 0; i < rightImgs.length; i++){
+			rightImgs[i] = new Image("res/ritchie/walk" + (i+1) + ".png");			
+		}
+		
+		Image[] leftImgs = new Image[5];
+		for(int i = 0; i < leftImgs.length; i++){
+			leftImgs[i] = rightImgs[i].getFlippedCopy(true, false);			
+		}
+		
+		Image[] idleImgs = new Image[4];
+		Image[] idleImgs2 = new Image[4];
+		for(int i = 0; i < idleImgs.length; i++){
+			idleImgs[i] = new Image("res/ritchie/idle" + (i+1) + ".png");
+			idleImgs2[i] = idleImgs[i].getFlippedCopy(true, false);
+		}
+		
+		int duration = 100;
+		animation = new Animation(true);
+		walkLeft = new Animation(leftImgs, duration, true);
+		walkRight = new Animation(rightImgs, duration, true);
+		idleRight = new Animation(idleImgs, duration*2, true);
+		idleLeft = new Animation(idleImgs2, duration*2, true);
+		
+		animation = idleRight;
 	}
 
 	public static void executeCommands(){
@@ -134,7 +165,10 @@ public class Robot extends Character{
 //		g.setColor(new Color(255, 0, 0, 255));
 //		super.render(g);
 		
-		g.drawImage(sprite, getX() - sprite.getWidth()/2, getY() - sprite.getHeight()/2);
+		if(animation != null){
+			animation.draw(getX() - sprite.getWidth()/2, getY() - sprite.getHeight()/2);
+		}
+//			g.drawImage(sprite, getX() - sprite.getWidth()/2, getY() - sprite.getHeight()/2);
 		
 //		int x = isInComputer();
 //		if(x != -1){
@@ -166,7 +200,7 @@ public class Robot extends Character{
 				// repeat instructions
 				new HelpText();
 				
-				if(!User.doneTutorial[Play.world]){
+				if(!Play.user.doneTutorial[Play.world]){
 					Level.initTutorialLevelData();
 				}
 				else{
@@ -181,6 +215,12 @@ public class Robot extends Character{
 		else{
 			hovered = false;
 		}
+		
+		// animations
+		if(facingRight)
+			animation = idleRight;
+		else
+			animation = idleLeft;
 		
 		// end program run
 		if(commandCount >= Sidebar.programButtons.size()){
@@ -538,6 +578,8 @@ public class Robot extends Character{
 			speed = moveSpeed;
 			body.setPosition(body.getPosition().getX() + speed, body.getPosition().getY());
 			moveDistance += Math.abs(speed);
+			animation = walkRight;
+			facingRight = true;
 		}
 		else{
 			System.out.println("move right");
@@ -558,6 +600,8 @@ public class Robot extends Character{
 			speed = moveSpeed;
 			body.setPosition(body.getPosition().getX() - speed, body.getPosition().getY());
 			moveDistance += Math.abs(speed);
+			animation = walkLeft;
+			facingRight = false;
 		}
 		else{
 			System.out.println("move left");

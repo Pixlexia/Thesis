@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="18" height="14" tilewidth="40" tileheight="40">
+<map version="1.0" orientation="orthogonal" width="18" height="15" tilewidth="40" tileheight="40">
  <tileset firstgid="1" name="tileset" tilewidth="40" tileheight="40">
-  <image source="../tileset.png" width="200" height="200"/>
+  <image source="../tileset.png" width="200" height="600"/>
  </tileset>
- <layer name="art" width="18" height="14">
+ <layer name="art" width="18" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgwASMWMTIAfjMYSVCLzImJM9GoXtg8rQyB5tfBtI95JqDK7wJxRcuQIy7YICZSubgcx8p5uADuMwhJnzQwxIfJhUAAIJXkWzwAwAA
+   H4sIAAAAAAAAC62RSwqAMAwFBfES9bNQ8dOFXej9z2YKDTxiUkUNDClJO9q0KK7hlNqbyHmqm7M7sSZ2pd8QbaIjasPjYR2U/kSMRE8MHzzsmolF8fB98C6WJ+45UpYeL3LOw3X3kwfvwD4vetZ7oQe/KT3Yw3WM8icP/99XTxD5iWdL5Dw4S54nzt6as/TI9wxKzdp35zkBDPwduzgEAAA=
   </data>
  </layer>
- <layer name="data" width="18" height="14">
+ <layer name="data" width="18" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgQAWSDLiBBB65UTAKRsHgBwCxc7Hr8AMAAA==
+   H4sIAAAAAAAAC2NgQAWSDLiBBB65UTAKRsHIAQBt59zTOAQAAA==
   </data>
  </layer>
 </map>

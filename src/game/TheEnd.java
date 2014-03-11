@@ -20,7 +20,7 @@ public class TheEnd extends BasicGameState{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		
-		Player.idleRight.draw(Game.GWIDTH/2 - Player.idleRight.getWidth()/2, 270);
+		Play.player.idleRight.draw(Game.GWIDTH/2 - Play.player.idleRight.getWidth()/2, 270);
 		
 		arg2.setBackground(Color.white);
 		Res.futura60.drawString(Game.GWIDTH/2 - Res.futura60.getWidth("THE END")/2, 180, "THE END", new Color(20, 20, 20));

@@ -46,7 +46,7 @@ public class PButton extends Button{
 		
 		newPos = new Point(0, 0);
 		
-		inflateRate = 3;
+		inflateRate = 5f;
 		
 		inflateFromZero();
 	}
@@ -65,6 +65,22 @@ public class PButton extends Button{
 			g.setColor(new Color(255, 255, 255, 255));
 		}
 		g.fill(getBounds());
+
+		//border
+		g.setLineWidth(2);
+		
+		g.setColor(new Color(240, 240, 240));
+		g.fill(getBounds());
+		
+		// outer stroke
+		g.setColor(new Color(200, 200, 200, 255));
+		g.drawRect(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight());
+		
+		// inner glow
+		g.setColor(Color.white);
+		g.drawRect(getBounds().getX()+2, getBounds().getY()+2, getBounds().getWidth() - 4, getBounds().getHeight() - 4);
+		
+		hoverImage.setAlpha((float) imageAlpha/255f);
 		
 		if(type == RAction.number){
 			String s;
@@ -89,8 +105,11 @@ public class PButton extends Button{
 			}
 		}
 		else{
-			hoverImage.setAlpha((float) imageAlpha/255f);
-			g.drawImage(hoverImage, pos.getX(), pos.getY());
+
+			g.scale(0.75f, 0.75f);
+			g.drawImage(hoverImage, (int) pos.getX() * 1/0.75f + 9, (int) pos.getY() * 1/0.75f + 8);
+			g.scale(1/0.75f, 1/0.75f);
+			g.setLineWidth(1);
 		}
 	}
 	
@@ -133,12 +152,13 @@ public class PButton extends Button{
 	@Override
 	public void isHovered(){
 		super.isHovered();
-		enlargeSize = 2;
+		enlargeSize = 3;
 		inflate();
 	}
 	
 	@Override
 	public void onClick(){
+		Res.hover.play();
 		if(!Sidebar.showCalculator){
 			super.onClick();
 			enlargeSize = 8;

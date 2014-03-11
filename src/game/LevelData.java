@@ -7,6 +7,7 @@ import worldlevels.World1;
 
 // data for the current dynamic level
 public class LevelData {
+	public int id;
 	public HashMap<Slot, Integer> slotAns;
 	public int maxRactions, maxCommands;
 	public ArrayList<String> t;

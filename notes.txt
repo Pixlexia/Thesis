@@ -44,6 +44,10 @@ CHAPTER 4
 - actual testing
 - graphs and shit
 
+easy = 120 * (5retries + 3excess + 4/2) = 1200
+normal = 90 * (3 retries + 2excess + 2/2) = 540
+hard = 60 * (1 retry + 0 excess + 0) = 60
+
 CHAPTER 5
 
 

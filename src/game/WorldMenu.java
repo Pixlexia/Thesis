@@ -112,6 +112,7 @@ public class WorldMenu extends BasicGameState{
 		enter = new Button(Game.GWIDTH/2 - 300/2, 490, 300, 50){
 			@Override
 			public void onClick(){
+				super.onClick();
 				if(index <= worldsUnlocked){					
 					Play.world = index;
 					Play.initWorld();
@@ -125,8 +126,8 @@ public class WorldMenu extends BasicGameState{
 			}
 		};
 
-		enter.color = new Color(220, 220, 220);
-		enter.hoverColor = new Color(220, 220, 220);
+		enter.color = new Color(240, 240, 240);
+		enter.hoverColor = new Color(240, 240, 240);
 		enter.inflateRate = 2;
 		
 		rightArrow = new Image("res/arrows.png");
@@ -136,6 +137,7 @@ public class WorldMenu extends BasicGameState{
 		right = new Button(Game.GWIDTH - buttonPadding, 240, rightArrow.getWidth(), rightArrow.getHeight()){			
 			@Override
 			public void onClick(){
+				super.onClick();
 				inflate();
 				clickRight();
 			}
@@ -148,6 +150,7 @@ public class WorldMenu extends BasicGameState{
 		left = new Button(buttonPadding - right.getBounds().getWidth(), 240, rightArrow.getWidth(), rightArrow.getHeight()){
 			@Override
 			public void onClick(){
+				super.onClick();
 				inflate();
 				clickLeft();
 			}
@@ -162,21 +165,38 @@ public class WorldMenu extends BasicGameState{
 		right.enlargeSize = 10;
 		left.enlargeSize = right.enlargeSize;
 		
-		int boxColor = 220;
+		int boxColor = 250;
 		right.color = new Color(boxColor, boxColor, boxColor);
 		left.color = right.color;		
 		
-		boxColor = 210;
+		boxColor = 240;
 		right.hoverColor = new Color(boxColor, boxColor, boxColor);
 		left.hoverColor = new Color(boxColor, boxColor, boxColor);
 		
 		left.borderRadius = 5;
 		right.borderRadius = left.borderRadius;
 		enter.borderRadius = left.borderRadius;
+		
+		left.stroke = true;
+		left.halfShadow = true;
+		left.innerGlow = true;
+		left.clickSound = Res.switch1;
+		
+		right.stroke = true;
+		right.halfShadow = true;
+		right.innerGlow = true;
+		right.clickSound = Res.switch2;
+		
+		enter.dropShadow = true;
+		enter.stroke = true;
+		enter.halfShadow = true;
+		enter.innerGlow = true;
+		enter.clickSound = Res.key1;
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		g.setBackground(Color.white);
 		// grid
 		int boxSize = 50;
 		

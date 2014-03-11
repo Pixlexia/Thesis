@@ -64,7 +64,7 @@ public class Sidebar {
 		for(int i = 0 ; i < maxRactions; i++){
 			float x = padding*(i % maxCommandsPerRow) + bSize * (i % maxCommandsPerRow);
 			float y = (i/maxCommandsPerRow) * padding + (i/maxCommandsPerRow) * bSize;
-			cButtons.add(new CButton(RActionList.list[i], padding + x, y + ypadding + padding, bSize, bSize));
+			cButtons.add(new CButton(RActionList.list[i], padding + x, y + ypadding + padding, bSize-3, bSize-3));
 			
 //			cButtons.get(i).timeBeforeInflate = r.nextInt(1000);
 		}
@@ -80,7 +80,7 @@ public class Sidebar {
 //			}
 //		}
 		
-		ypadding = 250;
+		ypadding = 260;
 		// init program UI buttons
 		for(int i = 0; i < maxCommands/maxCommandsPerRow; i++){
 			for(int j = 0 ; j < maxCommands/ (maxCommands/maxCommandsPerRow); j++){
@@ -98,6 +98,7 @@ public class Sidebar {
 		ypadding -= 70;
 		runProgram = new Button(padding, ypadding, Game.GWIDTH - Game.PWIDTH - padding*2, 60){
 			public void onClick(){
+				Res.key3.play();
 				if(!Robot.doneRun)
 					Robot.executeCommands();
 				else if(Robot.isRunning){
@@ -111,6 +112,10 @@ public class Sidebar {
 			}
 		};
 		runProgram.borderRadius = 8;
+		runProgram.dropShadow = true;
+		runProgram.halfShadow = true;
+		runProgram.innerGlow = true;
+		runProgram.stroke = true;
 		
 		runButton = new Image("res/playarrow.png");
 		
@@ -121,53 +126,70 @@ public class Sidebar {
 	
 	public static void render(Graphics g){
 		g.translate(Game.PWIDTH, 0);
-		// commands panel
-		g.setColor(new Color(255, 255, 255, 200));
-//		g.fillRect(0, 0, Game.GWIDTH - Game.PWIDTH, Game.GHEIGHT);
-		int c = 215;
-		g.setColor(new Color(c, c, c - 10, 230));
+		int c = 235;
+		g.setColor(new Color(c, c, c - 5, 230));
 		g.fillRect(0, 0, Game.GWIDTH - Game.PWIDTH, Game.GHEIGHT);
-		Res.futura16.drawString(padding, 5, "COMMANDS", new Color(50, 50, 50));
 
+		// commands panel
+		
+		Color darkGray = new Color(220, 220, 214);
+		g.setColor(darkGray);
+		g.fillRect(0, 0, Game.GWIDTH-Game.PWIDTH, 26);
+
+		Res.futura16.drawString(padding, 5, "COMMANDS", new Color(90, 90, 90));
 		for(int i = 0 ; i < cButtons.size(); i++){
 			cButtons.get(i).render(g);
 		}
 		
 		// program panel
 		int opacity = 0;
-		float uibuttonsopacity = 0;
 		if(programBgHovered || activeFunction == MAIN || (!fui1.isDisplaying && !fui2.isDisplaying)){
 			programBgColor = new Color(0, 0, 0, 0);
 			opacity = 255;
-			uibuttonsopacity = 0.5f;
 		}
 		else{
 			programBgColor = new Color(0, 0, 0, 0);
-			uibuttonsopacity = 0.3f;
 			opacity = 80;
 		}
 		
 		g.setColor(programBgColor);		
 		g.fill(programBg);
-		
-		Res.futura16.drawString(padding, 5 + 230, "PROGRAM", new Color(50, 50, 50, opacity));
+
+		int y2 = 256;
+		int y1 = y2 - 26; 
+		g.setColor(darkGray);
+		g.fillRect(0, y1, Game.GWIDTH-Game.PWIDTH, 26);
+		Res.futura16.drawString(padding, 5 + 230, "PROGRAM", new Color(90, 90, 90));
 		
 		for(int i = 0 ; i < programUIButtons.length; i++){
-			g.setColor(new Color(255, 255, 255, uibuttonsopacity));
+			g.setColor(new Color(255 ,255, 255, 100));
 			
-			// slots
+			// programUI Buttons
 			g.fill(programUIButtons[i]);
+
+			//border
+			g.setLineWidth(2);
+
+			// outer stroke
+			g.setColor(new Color(210, 210, 210, 100));
+			g.drawRect(programUIButtons[i].getX(), programUIButtons[i].getY()-1, programUIButtons[i].getWidth(), programUIButtons[i].getHeight());
 			
-			// program commands
-			if(i < programButtons.size()){
-				programButtons.get(i).render(g, programButtons.get(i).pos.getX(), programButtons.get(i).pos.getY(), opacity);
-				if(Robot.isRunning && Robot.commandCount == i){
-					g.setColor(new Color(100, 100, 80));
-					g.setLineWidth(4);
-					g.drawRect(programUIButtons[i].getX() - 2, programUIButtons[i].getY() - 3, programUIButtons[i].getWidth()+4, programUIButtons[i].getHeight()+4);
-					g.setLineWidth(1);
-				}
-			}
+			// inner glow
+			g.setColor(Color.white);
+//			g.drawRect(programUIButtons[i].getX()+2, programUIButtons[i].getY()+1, programUIButtons[i].getWidth() - 4, programUIButtons[i].getHeight() - 4);
+			
+			
+		}
+		
+		// program commands
+		for(int i = 0 ; i < programButtons.size(); i++){
+			programButtons.get(i).render(g, programButtons.get(i).pos.getX(), programButtons.get(i).pos.getY(), opacity);
+			if(Robot.isRunning && Robot.commandCount == i){
+				g.setColor(new Color(100, 100, 80));
+				g.setLineWidth(4);
+				g.drawRect(programUIButtons[i].getX() - 2, programUIButtons[i].getY() - 3, programUIButtons[i].getWidth()+4, programUIButtons[i].getHeight()+4);
+				g.setLineWidth(1);
+			}			
 		}
 		
 		// robot inventory
@@ -214,9 +236,33 @@ public class Sidebar {
 					runProgram.pos.getY() + runProgram.getBounds().getHeight()/2 - Play.restart.getHeight()/2);
 		}
 		
+		Color gray = new Color(199, 199, 189, 230);
+		Color white = new Color(240, 240, 240);
+				
+		g.setColor(gray);
+		g.drawLine(0, 0, 0, Game.GHEIGHT);
+		
+		g.setColor(white);
+		g.drawLine(1, 0, 1, Game.GHEIGHT);
+		
+		// commands title bar
+		horizontalLine(g, white, 1, 26);
+		horizontalLine(g, gray, 0, 27);
+		
+		// programs title bar
+		horizontalLine(g, white, 1, y1+1);
+		horizontalLine(g, gray, 0, y1);
+		horizontalLine(g, white, 1, y2);
+		horizontalLine(g, gray, 0, y2+1);
+		
 		g.translate(-Game.PWIDTH, 0);
 		
 		g.setColor(new Color(0, 0, 0, 255));
+	}
+	
+	public static void horizontalLine(Graphics g, Color c, float x, float y){
+		g.setColor(c);
+		g.drawLine(x, y, Game.GWIDTH - Game.PWIDTH, y);
 	}
 	
 	public static void update(int delta, Input input){

@@ -2,8 +2,9 @@ package worldlevels;
 
 import game.LevelData;
 import game.Operator;
+import game.Play;
+import game.RelOp;
 import game.Slot;
-import game.User;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,10 +14,10 @@ public class WorldLevel {
 	
 	public static Random r = new Random();
 	
-	public LevelData getLevel(){
+	public LevelData getLevel(int difficulty){
 		LevelData ld = new LevelData();
 		
-		switch(User.rating){
+		switch(difficulty){
 		case 0: // easy
 			initEasy();
 			ld.maxCommands = 6;
@@ -33,8 +34,14 @@ public class WorldLevel {
 			ld = hard.get(r.nextInt(hard.size()));
 			break;
 		}
+		
+		switch(Play.world){
+		case 1: ld.maxRactions = 12; break;
+		case 2: ld.maxRactions = 20; break;
+		case 3: ld.maxRactions = 22; break;
+		case 4: ld.maxRactions = 24; break;
+		}
 
-		ld.maxRactions = 12;
 		return ld;
 	}
 	
@@ -74,6 +81,17 @@ public class WorldLevel {
 		return null;
 	}
 	
+	public static RelOp randRelOp(){
+		switch(r.nextInt(4)){
+		case 0: return RelOp.GREATERTHAN;
+		case 1: return RelOp.LESSTHAN;
+		case 2: return RelOp.EQUALTO;
+		case 3: return RelOp.NOTEQUALTO;
+		}
+		
+		return null;
+	}
+	
 	public static int evalOp(int x, int y, Operator op){
 		switch(op){
 		case ADD: return x + y;
@@ -85,10 +103,32 @@ public class WorldLevel {
 		return 0;
 	}
 	
+	public static boolean evalRelOp(int x, int y, RelOp relop){
+		switch(relop){
+		case GREATERTHAN: return x > y;
+		case LESSTHAN: return x < y;
+		case EQUALTO: return x == y;
+		case NOTEQUALTO: return x != y;
+		}
+		
+		return false;
+	}
+	
 	public static void giveSlotAnswer(LevelData ld, Slot slot){
 		int i = r.nextInt(99);
 		
 		ld.slotAns.put(slot, i);
+	}
+	
+	public static String relOpString(RelOp ro){
+		switch(ro){
+		case GREATERTHAN: return "GREATER THAN";
+		case LESSTHAN: return "LESS THAN";
+		case EQUALTO: return "EQUAL TO";
+		case NOTEQUALTO: return "NOT EQUAL TO";
+		}
+		
+		return null;
 	}
 
 }

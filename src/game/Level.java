@@ -65,13 +65,11 @@ public class Level {
 		exitLocked = true;
 		
 		// actual game levels depending on the world
-		if(false && User.doneTutorial[Play.world]){
+		if(Play.user.doneTutorial[Play.world]){
 			Random r = new Random();
 			int randomLvl = r.nextInt(5) + 1;
 
 //			initLevelData();
-
-			System.out.println(Play.world);
 			levelData = getLevel();
 			
 			// sidebar ractions, commands
@@ -82,11 +80,15 @@ public class Level {
 			for(String s : levelData.t){
 				addHelp(s);
 			}
-						
-			System.out.println("# of comps in leveldata: " + levelData.compValues.size());
-			
-			System.out.println("Level layout: " + levelData.compValues.size() + "_" + randomLvl);
-			map = new TiledMap("res/levels/layouts/"+levelData.compValues.size()+"_" + randomLvl + ".tmx"); // comp_lvl.tmx
+//			System.out.println("# of comps in leveldata: " + levelData.compValues.size());
+//			System.out.println("Level layout: " + levelData.compValues.size() + "_" + randomLvl);
+			if(Play.world == 3){
+				randomLvl = r.nextInt(2) + 1;
+				map = new TiledMap("res/levels/layouts/loop"+levelData.compValues.size()+"_" + randomLvl + ".tmx");
+			}
+			else{
+				map = new TiledMap("res/levels/layouts/"+levelData.compValues.size()+"_" + randomLvl + ".tmx"); // comp_lvlid.tmx								
+			}
 			
 		}
 		// tutorial level
@@ -118,7 +120,7 @@ public class Level {
 				
 				tileId = map.getTileId(x, y, 0);
 				
-				if(tileId == TILE_LADDER){
+				if(tileId == TILE_LADDER || tileId == 27){
 					ladders.add(new Point((x+1) * Game.TS, (y) * Game.TS + Game.TS/2));
 				}
 				else if(tileId == TILE_EXIT){
@@ -128,7 +130,7 @@ public class Level {
 					computers.add(new Computer(x, y));
 				}
 
-				if(tileId == 1 && ((x+1) < map.getWidth())){
+				if(isSolidTile(tileId) && ((x+1) < map.getWidth())){
 					if(width == 0){
 						start = x;
 					}
@@ -138,7 +140,7 @@ public class Level {
 					
 				}
 				else{
-					if(tileId == 1 && (x+1) >= map.getWidth()){
+					if(isSolidTile(tileId) && (x+1) >= map.getWidth()){
 						width += map.getTileWidth();
 						solid[x][y] = true;
 						
@@ -151,7 +153,7 @@ public class Level {
 						StaticBody body = new StaticBody("tile" + tileId, new Box(width, map.getTileHeight()));
 						body.setPosition(start * map.getTileWidth() + (width/2), y * map.getTileHeight() + map.getTileHeight()/2);
 						solidBodies.add(body);
-						body.setFriction(0.5f);
+						body.setFriction(1f);
 						Play.physWorld.add(body);
 
 						width = 0;
@@ -160,7 +162,7 @@ public class Level {
 			}
 		}
 		
-		if(false && User.doneTutorial[Play.world]){
+		if(Play.user.doneTutorial[Play.world]){
 			initLevelData();
 		}
 		else{			
@@ -169,33 +171,48 @@ public class Level {
 
 	}
 	
-	public static void challengeFunction(){
+	public static boolean isSolidTile(int i){
+		if(i == 1 || i == 26 || (i >= 28 && i <= 41) || (i >= 46 && i <= 47) || i == 51 || i == 52){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static int challengeFunction(){
 		Play.ddaTime = Play.timer/1000;
 		int rating;
-		rating = Play.ddaCommands + Play.ddaErrors + Play.ddaReread + Play.ddaRetries + Play.ddaTime;
+		rating = (Play.ddaReread/2) + (Play.ddaRetries*2) + Play.ddaTime + Play.ddaCommands;
 		
-		if(rating < 5){
-			User.rating = 2;
+		return rating;
+	}
+	
+	public static int getLevelDifficulty(int x){
+		// calculate current user rating using the challenge function
+		int difficulty = 1;
+		
+		if(x < 60){
+			difficulty = 2; // hard
 		}
-		else if(rating >= 5 && rating < 10){
-			User.rating = 1;
+		else if(x >= 540 && x < 1200){
+			difficulty = 1; // normal
 		}
-		else if(rating >= 10){
-			User.rating = 0;
+		else if(x >= 1200){
+			difficulty = 0; // easy
 		}
+		
+		return difficulty;
 	}
 	
 	// get a level from World1, World2 etc depending on the current Play.world
 	// specify the difficulty of next level depending on the user rating
-	public LevelData getLevel(){		
-		// calculate current user rating using the challenge function
-		Level.challengeFunction();
+	public LevelData getLevel(){
 		
 		switch(Play.world){
-		case 1:	return Play.world1.getLevel();
-//		case 2:	return World2.getLevel();
-//		case 3:	return World3.getLevel();
-//		case 4:	return World4.getLevel();
+		case 1:	return Play.world1.getLevel(getLevelDifficulty(challengeFunction()));
+		case 2:	return Play.world2.getLevel(getLevelDifficulty(challengeFunction()));
+		case 3:	return Play.world3.getLevel(getLevelDifficulty(challengeFunction()));
+//		case 4:	return Play.world4.getLevel();
 		}
 		
 		return null;
@@ -212,7 +229,7 @@ public class Level {
 		challengeFunction();
 		
 		// If tutorial done for this world, get a LevelData from the list of dynamic levels:
-//		if(User.doneTutorial[Play.world] && Play.world != 0){
+//		if(Play.user.doneTutorial[Play.world] && Play.world != 0){
 		if(false){
 		}
 		// Premade tutorial levels:
@@ -260,7 +277,7 @@ public class Level {
 				case 6:
 					addHelpManual("I couldn't jump or go up ladders, so be\ncareful!");
 					addHelpManual("Also you can delete commands on the\nprogram by clicking on them.");
-					Play.tutorialDone = true;
+					Play.isLastTutorialLevel = true;
 					break;
 				} // end world == tutorial
 				break;
@@ -334,7 +351,7 @@ public class Level {
 					addHelp("If I am standing on a computer block, I could use the computer directly as an operand.");
 					addHelp("Take me to that computer then do the following: <bluecomputer>");
 					addHelp("This means 'take the value of the computer I'm currently on, divide it by five then store it to yellow.'");
-					Play.tutorialDone = true;
+					Play.isLastTutorialLevel = true;
 					break;
 					
 				case 9:
@@ -423,7 +440,7 @@ public class Level {
 					break;
 				
 				case 5:
-					Play.tutorialDone = true;
+					Play.isLastTutorialLevel = true;
 					computers.get(0).value = 2;
 					Sidebar.maxCommands = 18;
 					addHelp("I need to get that computer's data. I need it on yellow if it's a 1-digit number. If not, it should go to red.");				
@@ -471,7 +488,7 @@ public class Level {
 					computers.get(3).value = 70;
 					addHelp("In this level, one computer contains a value greater than 50. Help me find it and place it on my yellow slot.");
 					addHelp("Tip: Loops + if conditions = win!");
-					Play.tutorialDone = true;
+					Play.isLastTutorialLevel = true;
 					break;
 				}
 				break; // end loop world
@@ -504,7 +521,7 @@ public class Level {
 					computers.get(0).value = 10;
 					addHelp("I need that computer's data on my blue and red slot.");
 					addHelp("Maybe you could use function F(x)1 with move right commands, and function F(x)2 with move left commands.");
-					Play.tutorialDone = true;
+					Play.isLastTutorialLevel = true;
 				}
 				break;// end functions world
 			}// end switch Play.world
@@ -517,7 +534,7 @@ public class Level {
 		boolean win = false;
 		
 		// dynamic level
-		if(User.doneTutorial[Play.world]){
+		if(Play.user.doneTutorial[Play.world]){
 			win = true;
 			
 			if(levelData.slotAns.containsKey(Slot.RED) && Robot.inventory[0] != levelData.slotAns.get(Slot.RED)){
@@ -746,6 +763,7 @@ public class Level {
 		
 		
 		if(win){
+			Res.exitUnlocked.play();
 			String s = "EXIT UNLOCKED!";
 			Play.ddaTime = Play.timer;
 			Play.gTexts.add(new GameText(s, new Point(Level.exit.get(0).getX() - 70, Level.exit.get(0).getY() - 60)));

@@ -5,6 +5,7 @@ import game.Play;
 import net.phys2d.math.Vector2f;
 import net.phys2d.raw.Body;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
@@ -14,9 +15,13 @@ public class Character {
 	float speed;
 	Vector2f maxSpeed;
 	
+	// animations
+	public Animation animation, walkRight, walkLeft, idleRight, idleLeft;
+	Animation jumpRight, fallRight, jumpLeft, fallLeft;
+	
 	public Character(float x, float y){
-		speed = 1000;
-		maxSpeed = new Vector2f(200, 3000);
+		speed = 1300;
+		maxSpeed = new Vector2f(230, 3000);
 	}
 	
 	public void update(int delta){

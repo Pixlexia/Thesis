@@ -13,6 +13,12 @@ package entities;
 import game.Game;
 import game.Level;
 import game.Play;
+import game.Res;
+import game.User;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 import net.phys2d.math.Vector2f;
 import net.phys2d.raw.Body;
 import net.phys2d.raw.shapes.Box;
@@ -33,6 +39,8 @@ public class Player extends Character{
 	// PHYS2D
 	//=============
 	
+	public boolean facingRight;
+	
 	// camera
 	public static float camX, camY;
 	Vector2f camMove;
@@ -49,9 +57,6 @@ public class Player extends Character{
 	public static float offsetX, offsetY;
 	public static float renderX, renderY;
 	
-	// animations
-	public static Animation animation, walkRight, walkLeft, idleRight, idleLeft;
-	Animation jumpRight, fallRight, jumpLeft, fallLeft;
 	
 	public Player(float x, float y) throws SlickException{
 		super(x, y);
@@ -63,7 +68,8 @@ public class Player extends Character{
 		body.setRotatable(false);
 		body.setMaxVelocity(maxSpeed.x, maxSpeed.y);
 		body.setCanRest(true);
-		body.setRestitution(10);
+		body.setRestitution(100);
+//		body.setFriction(0.8f);
 		
 		camX = offsetX;
 		camY = 0;
@@ -115,20 +121,23 @@ public class Player extends Character{
 		animation = idleRight;
 	}
 	
-	public void update(Input input, int delta, StateBasedGame sbg){
+	public void update(Input input, int delta, StateBasedGame sbg) throws SlickException{
 		
 		// controls move right
 		if(input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)){
 			body.setForce(speed, 0);
+			facingRight = true;
 		}
 		// controls move left
 		else if(input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)){
 			body.setForce(-speed, 0);
+			facingRight = false;
 		}
 		// jump
 		
 		if(body.getVelocity().getY() == 0 && !isInLadder() && (input.isKeyPressed(Input.KEY_W) || input.isKeyPressed(Input.KEY_SPACE) || input.isKeyPressed(Input.KEY_UP))){
 			body.addForce(new Vector2f(0, jumpSpeed));
+			Res.jump.play(1, 0.2f);
 		}
 		input.clearKeyPressedRecord();
 		
@@ -153,20 +162,71 @@ public class Player extends Character{
 			body.setMaxVelocity(maxSpeed.x, maxSpeed.y);
 			body.setDamping(0);
 		}
+
+		if(body.getVelocity().getY() >= 1500){
+//			body.addForce(new Vector2f(0, body.getVelocity().getY() - 3000));
+			body.setPosition(Level.pStart.getX(), Level.pStart.getY());
+		}
 		
 		// check if exit
-		if(isInExit() && !Level.exitLocked && !Play.levelWin){
-			if(Play.tutorialDone){
-				if(Play.world != 4)
-					Play.nextWorld();
-				else{
-					sbg.enterState(4);
-				}
-			}
-				Play.levelWin = true;
+		if(isInExit() && !Level.exitLocked){
+			levelComplete(sbg);
 		}
 		
 		super.update(delta);
+	}
+	
+	public static void levelComplete(StateBasedGame sbg) throws SlickException{
+		// see if the level just completed is the last tutorial level
+		// for that world.
+		if(Play.isLastTutorialLevel){
+			Play.user.doneTutorial[Play.world] = true;
+			
+			if(Play.world == 0){
+				Play.worldWin = true;
+			}
+		}
+		
+		// add levelfinished count
+		if(Play.user.doneTutorial[Play.world]){
+			Play.user.finishedLevels[Play.world]++;
+		}
+		else{
+			Play.user.finishedTutorialLevels[Play.world]++;
+		}
+		
+		// if tutorial levels are done, proceed with actual game levels (except for world == 0, goto next world)
+		if(Play.user.doneTutorial[Play.world]){	
+			// tutorial world
+			if(Play.world == 0){
+				Play.worldWin = true;
+			}
+			// other worlds
+			else{
+				Play.user.addScore(Level.getLevelDifficulty(Level.challengeFunction()));
+				System.out.println("player getworldscores size = " + Play.user.getWorldScores(Play.world).size());
+				if(Play.user.getWorldScores(Play.world).size() >= 10){
+					Play.worldWin = true;
+				}
+				else
+					Play.worldWin = false;
+			}
+		}
+		else{
+			
+		}
+
+		if(!HelpText.isAlive){
+			if(!Play.worldWin){
+				Play.level++;
+				Play.initLevel();
+			}
+			else{ // gotonextworld
+				Play.nextWorld(sbg);
+			}
+		}
+
+		Play.user.saveData();
 	}
 	
 	public boolean isInLadder() {
@@ -252,31 +312,31 @@ public class Player extends Character{
 		
 		
 		if(body.getVelocity().getY() < 0){
-			if(body.getVelocity().getX() > 0)
+			if(body.getForce().getX() > 0)
 				animation = jumpRight;
 			else
 				animation = jumpLeft;
 		}
 		else if(body.getVelocity().getY() > 0){
-			if(body.getVelocity().getX() > 0)
+			if(body.getForce().getX() > 0)
 				animation = fallRight;
 			else
 				animation = fallLeft;
 		}
 		else{
 			// update animations
-			if((int) body.getVelocity().getX() > 0){
+			if((int) body.getForce().getX() > 0){
 				animation = walkRight;
 			}
-			else if((int) body.getVelocity().getX() < 0){
+			else if((int) body.getForce().getX() < 0){
 				animation = walkLeft;
 			}
 			else{
-				if(body.getVelocity().getX() < 0)
+				if(facingRight)
 					animation = idleRight;
 				else
 					animation = idleLeft;
-			}	
+			}
 		}
 		
 		animation.draw(r.getX() + r.getWidth()/2 - animation.getCurrentFrame().getWidth()/2, r.getY() - 8);

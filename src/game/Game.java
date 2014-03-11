@@ -19,7 +19,7 @@ public class Game extends StateBasedGame{
 	 */
 	
 	public Game() {
-		super("Game");
+		super("Seumas & Ritchie");
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class Game extends StateBasedGame{
 		this.addState(new Play()); // 2
 		this.addState(new SplashScreen()); // 3
 		this.addState(new TheEnd()); // 4
-		this.enterState(3);
+		this.enterState(0);
 	}
 	
 	public static void main(String args[]) throws SlickException{

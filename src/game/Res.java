@@ -15,14 +15,27 @@ public class Res {
 	public static Map<RAction, Image> rActionSprites;
 	public static Map<String, Image> worldImages;
 	public static Map<Operator, String> operators;
-	public static Sound hover, click;
+	public static Sound hover, hover2, button1, on, click, click2;
+	public static Sound key1, key2, key3, key4, switch1, switch2, jump, blip1, exitUnlocked;
 	public static Image handImage;
 	public static AngelCodeFont futura24, futura36, futura16, futura60, futura72, futura10;
+	public static Image bg1, bg2;
 	
 	public Res() throws SlickException{
 		// Sounds
 		hover = new Sound("res/sounds/hover.wav");
+		hover2 = new Sound("res/sounds/hover2.wav");
 		click = new Sound("res/sounds/click.wav");
+		key1 = new Sound("res/sounds/key1.wav");
+		key2 = new Sound("res/sounds/key2.wav");
+		key3 = new Sound("res/sounds/key3.wav");
+		exitUnlocked = new Sound("res/sounds/exit.ogg");
+		switch1 = new Sound("res/sounds/switch1.wav");
+		switch2 = new Sound("res/sounds/switch2.wav");
+		blip1 = new Sound("res/sounds/blip1.wav");
+		jump = new Sound("res/sounds/jump.wav");
+		button1 = new Sound("res/sounds/button1.ogg");
+		on = new Sound("res/sounds/on.ogg");
 		
 		// Fonts
 		String font = "futura24";
@@ -85,6 +98,10 @@ public class Res {
 		operators.put(Operator.SUB, "DIFFERENCE");
 		operators.put(Operator.MUL, "PRODUCT");
 		operators.put(Operator.DIV, "QUOTIENT");
+		
+		// bg images
+		bg1 = new Image("res/bg1.png");
+		bg2 = new Image("res/bg2.png");
 	}
 	
 	// x = center X
